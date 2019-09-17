@@ -12,14 +12,14 @@ public class ToDoList {
         toDoList = new ArrayList<>();
         removedToDoList = new ArrayList();
         scanner = new Scanner(System.in);   //CPSC 210 B04-SimpleCalculatorSolutionLecLab
-        whatToDo();
+        whatToAdd();
     }
 
     public static void main(String[] args) {
         new ToDoList();
     }
 
-    public void whatToDo() {
+    public void whatToAdd() {
 
         while (true) {
             System.out.println("What would you like to do?");
