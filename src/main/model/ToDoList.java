@@ -1,25 +1,21 @@
-package ui;
+package model;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import model.ToDo;
 
 public class ToDoList {
-    private ArrayList<String> toDoList;
-    private ArrayList<String> removedToDoList;
+    private ToDo todo;
     private Scanner scanner;                 //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
     public ToDoList() {
-        toDoList = new ArrayList<>();
-        removedToDoList = new ArrayList();
-        scanner = new Scanner(System.in);   //CPSC 210 B04-SimpleCalculatorSolutionLecLab
-        whatToAdd();
+        todo = new ToDo();
+        scanner = new Scanner(System.in);
+        whatToDo();
     }
 
-    public static void main(String[] args) {
-        new ToDoList();
-    }
-
-    public void whatToAdd() {
+    // EFFECT: Asks user what they want to do
+    public void whatToDo() {
 
         while (true) {
             System.out.println("What would you like to do?");
@@ -27,6 +23,7 @@ public class ToDoList {
             System.out.println("2: Delete a todo");
             System.out.println("3: Show todos");
             System.out.println("4: Quit the program");
+            System.out.println("");
 
             int command = scanner.nextInt();      //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
@@ -38,35 +35,27 @@ public class ToDoList {
         System.out.println("Goodbye!");
     }
 
+    //EFFECT: takes user input and advances program based on user input
     public void checkCommand(int command) {
         if (command == 1) {
-            String todo = repeatToDo();
-            System.out.println("You have typed: " + todo);
-            toDoList.add(todo);
+            String todo1 = repeatToDo();
+            System.out.println("You have typed: " + todo1);
+            todo.addToDo(todo1);
+            System.out.println("");
         } else if (command == 2) {
-            removeToDo();
+            todo.removeToDo();
         } else if (command == 3) {
-            System.out.println("ToDos: " + toDoList);
+            todo.printToDoList();
         } else {
             System.out.println("Sorry, can you type 1, 2, 3 or 4");
         }
     }
 
-
+    // EFFECT: returns what the user typed
     public String repeatToDo() {
         System.out.println("Enter the ToDo:");
-        String todo = scanner.next();              //CPSC 210 B04-SimpleCalculatorSolutionLecLab
+        String todo = scanner.next();        //CPSC 210 B04-SimpleCalculatorSolutionLecLab
+        System.out.println("");
         return todo;
-    }
-
-    public void removeToDo() {
-        System.out.println("Which ToDo would you like to remove?");
-        for (int i = 0; i <= (toDoList.size() - 1); i++) {
-            System.out.println(i + " : " + toDoList.get(i));
-        }
-        int removeNum = scanner.nextInt();
-        String moveToRemove = toDoList.get(removeNum);
-        toDoList.remove(removeNum);
-        removedToDoList.add(moveToRemove);
     }
 }
