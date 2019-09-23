@@ -15,7 +15,7 @@ public class ToDoList {
     }
 
     // EFFECT: Asks user what they want to do
-    public void whatToDo() {
+    private void whatToDo() {
 
         while (true) {
             System.out.println("What would you like to do?");
@@ -35,8 +35,9 @@ public class ToDoList {
         System.out.println("Goodbye!");
     }
 
+    // REQUIRES: input only be numbers
     //EFFECT: takes user input and advances program based on user input
-    public void checkCommand(int command) {
+    private void checkCommand(int command) {
         if (command == 1) {
             String todo1 = repeatToDo();
             System.out.println("You have typed: " + todo1);
@@ -51,8 +52,9 @@ public class ToDoList {
         }
     }
 
+    // REQUIRES: can't input 1, 2, 3, 4 and words with spaces
     // EFFECT: returns what the user typed
-    public String repeatToDo() {
+    private String repeatToDo() {
         System.out.println("Enter the ToDo:");
         String todo = scanner.next();        //CPSC 210 B04-SimpleCalculatorSolutionLecLab
         System.out.println("");
