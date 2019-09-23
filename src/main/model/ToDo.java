@@ -12,7 +12,7 @@ public class ToDo {
     // EFFECT: Creates new ToDo
     public ToDo() {
         toDoList = new ArrayList<>();
-        removedToDoList = new ArrayList();
+        removedToDoList = new ArrayList<>();
         scanner = new Scanner(System.in);   //CPSC 210 B04-SimpleCalculatorSolutionLecLab
     }
 
