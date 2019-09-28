@@ -54,11 +54,11 @@ public class ToDoList {
         }
     }
 
-    // REQUIRES: can't input words or numbers with spaces
     // EFFECT: returns what the user typed
     public String repeatToDo() {
+        scanner = new Scanner(System.in);        //CPSC 210 B04-SimpleCalculatorSolutionLecLab
         System.out.println("Enter the ToDo:");
-        String todo = scanner.next();        //CPSC 210 B04-SimpleCalculatorSolutionLecLab
+        String todo = scanner.nextLine();        //CPSC 210 B04-SimpleCalculatorSolutionLecLab
         return todo;
     }
 }
