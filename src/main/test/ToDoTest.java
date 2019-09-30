@@ -4,7 +4,13 @@ import model.ToDo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,7 +18,7 @@ public class ToDoTest {
     private ToDo todo;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws IOException {
         todo = new ToDo();
     }
 
@@ -23,16 +29,6 @@ public class ToDoTest {
         ArrayList<String> removedToDoList = todo.getRemovedToDoList();
         assertEquals(0, removedToDoList.size());
     }
-
-//    @Test
-//    public void testRepeatToDo() {
-//
-//    }
-
-//    @Test
-//    public void testRepeatToDo() {
-//
-//    }
 
     @Test
     public void testAddToDo() {
@@ -108,6 +104,5 @@ public class ToDoTest {
         assertEquals("CPSC", removedToDoList.get(0));
         assertEquals("MATH", removedToDoList.get(1));
     }
-
 }
 

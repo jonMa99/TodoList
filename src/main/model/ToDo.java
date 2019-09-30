@@ -1,19 +1,24 @@
 package model;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import model.ToDoList;
 
-public class ToDo {
+public class ToDo implements Saveable, Loadable {
     private ArrayList<String> toDoList;
     private ArrayList<String> removedToDoList;
     private Scanner scanner;                 //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
     // EFFECT: Creates new ToDo
-    public ToDo() {
+    public ToDo() throws IOException {
         toDoList = new ArrayList<>();
         removedToDoList = new ArrayList<>();
         scanner = new Scanner(System.in);   //CPSC 210 B04-SimpleCalculatorSolutionLecLab
+        load();
     }
 
 //    // EFFECT: Asks user what they want to do
@@ -82,6 +87,7 @@ public class ToDo {
         System.out.println("Which ToDo would you like to remove?");
         printToDoList();
         int removeNum = scanner.nextInt();
+        System.out.println("You have removed: " + toDoList.get(removeNum - 1));
         moveToDoToRemovedToDo(removeNum);
     }
 
@@ -113,4 +119,37 @@ public class ToDo {
     public ArrayList<String> getRemovedToDoList() {
         return removedToDoList;
     }
+
+    @Override
+    // MODIFIES: removedToDoList, toDoList
+    // EFFECT: loads removeToDoListoutput.txt and toDoListoutput.txt files
+    public void load() throws IOException {
+        List<String> todos = Files.readAllLines(Paths.get("toDoListoutput.txt"));   // CPSC 210 FileReaderWriter
+        for (String s : todos) {
+            toDoList.add(s);
+        }
+        List<String> removes = Files.readAllLines(Paths.get("removeToDoListoutput.txt"));   // CPSC 210 FileReaderWriter
+        for (String s : removes) {
+            removedToDoList.add(s);
+        }
+        printToDoList();
+    }
+
+    @Override
+    // MODIFIES: removeToDoListoutput.txt, toDoListoutput.txt
+    // EFFECT: saves toDos inside toDoList and removedToDoList into removedToDoListoutput.txt and toDoListoutput.txt
+    public void save() throws IOException {                                        // https://stackoverflow.com/questions/6548157/how-to-write-an-arraylist-of-strings-into-a-text-file
+        FileWriter todo = new FileWriter("toDoListoutput.txt");
+        for (String s : toDoList) {
+            todo.write(s + "\n");
+        }
+        todo.close();
+        FileWriter remove = new FileWriter("removeToDoListoutput.txt");
+        for (String s : removedToDoList) {
+            remove.write(s + "\n");
+        }
+        remove.close();
+    }
 }
+
+
