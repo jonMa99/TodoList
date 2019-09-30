@@ -37,6 +37,6 @@ public class TestLoadable {
     }
 
     public void testLoad(Loadable l) throws IOException {
-        toDo.load();
+        l.load();
     }
 }

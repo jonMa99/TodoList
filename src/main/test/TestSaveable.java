@@ -36,6 +36,6 @@ public class TestSaveable {
     }
 
     public void testSave(Saveable s) throws IOException {
-        todo.save();
+        s.save();
     }
 }
