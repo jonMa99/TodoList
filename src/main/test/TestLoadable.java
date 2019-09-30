@@ -29,7 +29,8 @@ public class TestLoadable {
         output.println("CPSC 210");
         output.println("MATH 200");
         output.close();
-        testLoad(toDo);
+        //testLoad(toDo);
+        toDo.load();
         ArrayList<String> toDoList = toDo.getToDoList();
         assertTrue(toDoList.contains("CPSC 110"));
         assertTrue(toDoList.contains("CPSC 210"));
