@@ -1,25 +1,20 @@
 package test;
 
-import model.ToDo;
+import model.NormalToDo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ToDoTest {
-    private ToDo todo;
+public class NormalToDoTest {
+    private NormalToDo todo;
 
     @BeforeEach
     public void setUp() throws IOException {
-        todo = new ToDo();
+        todo = new NormalToDo();
     }
 
     @Test

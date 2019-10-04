@@ -1,16 +1,14 @@
 package model;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
-import model.ToDo;
 
 public class ToDoList {
-    private ToDo toDo;
+    private NormalToDo normalToDo;
     private Scanner scanner;                 //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
     public ToDoList() throws IOException {
-        toDo = new ToDo();
+        normalToDo = new NormalToDo();
         scanner = new Scanner(System.in);
         whatToDo();
     }
@@ -30,7 +28,7 @@ public class ToDoList {
             int command = scanner.nextInt();      //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
             if (command == 4) {
-                toDo.save();
+                normalToDo.save("toDoListoutput.txt", "removeToDoListoutput.txt");
                 break;
             }
             checkCommand(command);
@@ -45,12 +43,12 @@ public class ToDoList {
         if (command == 1) {
             String todo1 = repeatToDo();
             System.out.println("You have typed: " + todo1);
-            toDo.addToDo(todo1);
+            normalToDo.addToDo(todo1);
             System.out.println("");
         } else if (command == 2) {
-            toDo.removeToDo();
+            normalToDo.removeToDo();
         } else if (command == 3) {
-            toDo.printToDoList();
+            normalToDo.printToDoList();
         } else {
             System.out.println("Sorry, can you type 1, 2, 3 or 4");
         }

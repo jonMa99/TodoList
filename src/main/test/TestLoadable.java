@@ -1,43 +1,38 @@
 package test;
 
 import model.Loadable;
-import model.ToDo;
+import model.NormalToDo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestLoadable {
-    private ToDo toDo;
+    private NormalToDo normalToDo;
 
     @BeforeEach
     public void setUp() throws IOException {
-        toDo = new ToDo();
-        new FileWriter("toDoListoutput.txt", false).close();  //https://www.baeldung.com/java-delete-file-contents
+        normalToDo = new NormalToDo();
     }
 
     @Test
     public void testLoad() throws IOException {
-        PrintWriter output = new PrintWriter("toDoListoutput.txt");
-        output.println("CPSC 110");
-        output.println("CPSC 210");
-        output.println("MATH 200");
-        output.close();
-        //testLoad(toDo);
-        toDo.load();
-        ArrayList<String> toDoList = toDo.getToDoList();
+        testLoad(normalToDo);
+        ArrayList<String> toDoList = normalToDo.getToDoList();
         assertTrue(toDoList.contains("CPSC 110"));
         assertTrue(toDoList.contains("CPSC 210"));
         assertTrue(toDoList.contains("MATH 200"));
+        assertEquals("CPSC 210", toDoList.get(0));
+        assertEquals("CPSC 110", toDoList.get(1));
+        assertEquals("MATH 200", toDoList.get(2));
+        assertEquals(3, toDoList.size());
     }
 
     public void testLoad(Loadable l) throws IOException {
-        l.load();
+        l.load("testinput.txt", "testinputremoved.txt");
     }
 }

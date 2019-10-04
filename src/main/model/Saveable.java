@@ -6,5 +6,5 @@ public interface Saveable {
 
     // MODIFIES: removeToDoListoutput.txt, toDoListoutput.txt
     // EFFECT: saves strings inside toDoList and removedToDoList into removedToDoListoutput.txt and toDoListoutput.txt
-    public void save() throws IOException;
+    public void save(String toDo, String removeList) throws IOException;
 }

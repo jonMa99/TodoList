@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ToDo implements Saveable, Loadable {
+public class NormalToDo implements Saveable, Loadable {
     private ArrayList<String> toDoList;
     private ArrayList<String> removedToDoList;
     private Scanner scanner;                 //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
     // EFFECT: Creates new ToDo
-    public ToDo() throws IOException {
+    public NormalToDo() throws IOException {
         toDoList = new ArrayList<>();
         removedToDoList = new ArrayList<>();
         scanner = new Scanner(System.in);   //CPSC 210 B04-SimpleCalculatorSolutionLecLab
-        load();
+        load("toDoListoutput.txt", "removeToDoListoutput.txt");
     }
 
 //    // EFFECT: Asks user what they want to do
@@ -123,8 +123,8 @@ public class ToDo implements Saveable, Loadable {
     @Override
     // MODIFIES: removedToDoList, toDoList
     // EFFECT: loads removeToDoListoutput.txt and toDoListoutput.txt files
-    public void load() throws IOException {
-        List<String> todos = Files.readAllLines(Paths.get("toDoListoutput.txt"));   // CPSC 210 FileReaderWriter
+    public void load(String toDo, String removeList) throws IOException {
+        List<String> todos = Files.readAllLines(Paths.get(toDo));   // CPSC 210 FileReaderWriter
         for (String s : todos) {
             toDoList.add(s);
         }
@@ -138,13 +138,13 @@ public class ToDo implements Saveable, Loadable {
     @Override
     // MODIFIES: removeToDoListoutput.txt, toDoListoutput.txt
     // EFFECT: saves toDos inside toDoList and removedToDoList into removedToDoListoutput.txt and toDoListoutput.txt
-    public void save() throws IOException {                                        // https://stackoverflow.com/questions/6548157/how-to-write-an-arraylist-of-strings-into-a-text-file
-        FileWriter todo = new FileWriter("toDoListoutput.txt");
+    public void save(String toDo, String removeList) throws IOException {                                        // https://stackoverflow.com/questions/6548157/how-to-write-an-arraylist-of-strings-into-a-text-file
+        FileWriter todo = new FileWriter(toDo);
         for (String s : toDoList) {
             todo.write(s + "\n");
         }
         todo.close();
-        FileWriter remove = new FileWriter("removeToDoListoutput.txt");
+        FileWriter remove = new FileWriter(removeList);
         for (String s : removedToDoList) {
             remove.write(s + "\n");
         }
