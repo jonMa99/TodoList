@@ -32,7 +32,8 @@ public class UserPrompts {
             int command = scanner.nextInt();      //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
             if (command == 6) {
-                toDoList.save("toDoListoutput.txt", "toDoListoutput.txt", "removeToDoListoutput.txt");
+                toDoList.save("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
+                        "./data/removeToDoListoutput.txt");
                 break;
             }
             checkCommand(command);

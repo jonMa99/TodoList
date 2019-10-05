@@ -17,7 +17,7 @@ public abstract class ToDoList implements Saveable, Loadable {
         normalToDoList = new ArrayList<ToDo>();
         urgenttoDoList = new ArrayList<ToDo>();
         removedToDoList = new ArrayList<>();
-        load("toDoListoutput.txt", "urgenttoDoListoutput.txt", "removeToDoListoutput.txt");
+        load("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt", "./data/removeToDoListoutput.txt");
     }
 
     // MODIFIES: this
@@ -75,11 +75,11 @@ public abstract class ToDoList implements Saveable, Loadable {
         for (String s : todos) {
             normalToDoList.add(new ToDo(s));
         }
-        List<String> urgents = Files.readAllLines(Paths.get(toDo));   // CPSC 210 FileReaderWriter
+        List<String> urgents = Files.readAllLines(Paths.get(urgenttoDo));   // CPSC 210 FileReaderWriter
         for (String s : urgents) {
             urgenttoDoList.add(new ToDo(s));
         }
-        List<String> removes = Files.readAllLines(Paths.get("removeToDoListoutput.txt"));   // CPSC 210 FileReaderWriter
+        List<String> removes = Files.readAllLines(Paths.get(removeList));   // CPSC 210 FileReaderWriter
         for (String s : removes) {
             removedToDoList.add(new ToDo(s));
         }

@@ -25,13 +25,13 @@ public class TestSaveable {
 
     @Test
     public void testSave() throws IOException {
-        FileWriter save = new FileWriter("testoutput.txt");
+        FileWriter save = new FileWriter("./data/testoutput.txt");
         save.close();
         todo.addToDo("CPSC");
         todo.addToDo("MATH");
         todo.addToDo("PSYC");
         testSave(todo);
-        List<String> todos = Files.readAllLines(Paths.get("testoutput.txt"));  // CPSC 210 FileReaderWriter
+        List<String> todos = Files.readAllLines(Paths.get("./data/testoutput.txt"));  // CPSC 210 FileReaderWriter
         assertEquals("CPSC", todos.get(0));
         assertEquals("MATH", todos.get(1));
         assertEquals("PSYC", todos.get(2));
@@ -39,6 +39,6 @@ public class TestSaveable {
     }
 
     public void testSave(Saveable s) throws IOException {
-        s.save("testoutput.txt", "testurgentoutput.txt","testoutputremoved.txt");
+        s.save("./data/testoutput.txt", "./data/urgenttestinput.txt","./data/testoutputremoved.txt");
     }
 }

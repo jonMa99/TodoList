@@ -32,6 +32,6 @@ public class TestLoadable {
     }
 
     public void testLoad(Loadable l) throws IOException {
-        l.load("testinput.txt", "toDoListoutput.txt", "testinputremoved.txt");
+        l.load("./data/testinput.txt", "./data/urgenttestinput.txt", "./data/testinputremoved.txt");
     }
 }
