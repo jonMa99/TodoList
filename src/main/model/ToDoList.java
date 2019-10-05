@@ -7,12 +7,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NormalToDo implements Saveable, Loadable {
-    private ArrayList<Item> toDoList;
-    private ArrayList<Item> removedToDoList;
+public class ToDoList implements Saveable, Loadable {
+    private ArrayList<ToDo> toDoList;
+    private ArrayList<ToDo> removedToDoList;
 
     // EFFECT: Creates new ToDo
-    public NormalToDo() throws IOException {
+    public ToDoList() throws IOException {
         toDoList = new ArrayList<>();
         removedToDoList = new ArrayList<>();
         load("toDoListoutput.txt", "removeToDoListoutput.txt");
@@ -21,7 +21,7 @@ public class NormalToDo implements Saveable, Loadable {
     // MODIFIES: this
     // EFFECT: adds todo into the toDoList
     public void addToDo(String todo) {
-        toDoList.add(new Item(todo));
+        toDoList.add(new ToDo(todo));
     }
 
     // REQUIRES: toDoList has atleast 1 todo
@@ -33,7 +33,6 @@ public class NormalToDo implements Saveable, Loadable {
 
     //EFFECT: prints a list of todos
     public void printToDoList() {
-//        ArrayList<String> toDoList = getToDoList();
         System.out.println("Current ToDos");
         for (int i = 1; i <= toDoList.size(); i++) {
             System.out.println(i + " : " + (toDoList.get(i - 1).getToDoName()));
@@ -45,18 +44,18 @@ public class NormalToDo implements Saveable, Loadable {
     // MODIFIES: this
     // EFFECT: moves todo from toDoList to removedToDoList
     public void moveToDoToRemovedToDo(int removeNum) {
-        Item moveToRemove = toDoList.get(removeNum - 1);
+        ToDo moveToRemove = toDoList.get(removeNum - 1);
         toDoList.remove(removeNum - 1);
         removedToDoList.add(moveToRemove);
     }
 
     // EFFECT: returns toDoList
-    public ArrayList<Item> getToDoList() {
+    public ArrayList<ToDo> getToDoList() {
         return toDoList;
     }
 
     // EFFECT: returns removeToDoList
-    public ArrayList<Item> getRemovedToDoList() {
+    public ArrayList<ToDo> getRemovedToDoList() {
         return removedToDoList;
     }
 
@@ -66,11 +65,11 @@ public class NormalToDo implements Saveable, Loadable {
     public void load(String toDo, String removeList) throws IOException {
         List<String> todos = Files.readAllLines(Paths.get(toDo));   // CPSC 210 FileReaderWriter
         for (String s : todos) {
-            toDoList.add(new Item(s));
+            toDoList.add(new ToDo(s));
         }
         List<String> removes = Files.readAllLines(Paths.get("removeToDoListoutput.txt"));   // CPSC 210 FileReaderWriter
         for (String s : removes) {
-            removedToDoList.add(new Item(s));
+            removedToDoList.add(new ToDo(s));
         }
         printToDoList();
     }
@@ -80,12 +79,12 @@ public class NormalToDo implements Saveable, Loadable {
     // EFFECT: saves toDos inside toDoList and removedToDoList into removedToDoListoutput.txt and toDoListoutput.txt
     public void save(String toDo, String removeList) throws IOException {                                        // https://stackoverflow.com/questions/6548157/how-to-write-an-arraylist-of-strings-into-a-text-file
         FileWriter todo = new FileWriter(toDo);
-        for (Item td : toDoList) {
+        for (ToDo td : toDoList) {
             todo.write(td.getToDoName() + "\n");
         }
         todo.close();
         FileWriter remove = new FileWriter(removeList);
-        for (Item rtd : removedToDoList) {
+        for (ToDo rtd : removedToDoList) {
             remove.write(rtd.getToDoName() + "\n");
         }
         remove.close();

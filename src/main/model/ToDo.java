@@ -1,9 +1,9 @@
 package model;
 
-public class Item {
+public class ToDo {
     private String todoName;
 
-    public Item(String s) {
+    public ToDo(String s) {
         todoName = s;
     }
 

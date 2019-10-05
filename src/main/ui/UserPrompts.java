@@ -1,16 +1,14 @@
 package ui;
 
-import model.NormalToDo;
-
 import java.io.IOException;
 import java.util.Scanner;
 
-public class ToDoList {
-    private NormalToDo normalToDo;
+public class UserPrompts {
+    private model.ToDoList toDoList;
     private Scanner scanner;                 //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
-    public ToDoList() throws IOException {
-        normalToDo = new NormalToDo();
+    public UserPrompts() throws IOException {
+        toDoList = new model.ToDoList();
         scanner = new Scanner(System.in);
         whatToDo();
     }
@@ -30,7 +28,7 @@ public class ToDoList {
             int command = scanner.nextInt();      //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
             if (command == 4) {
-                normalToDo.save("toDoListoutput.txt", "removeToDoListoutput.txt");
+                toDoList.save("toDoListoutput.txt", "removeToDoListoutput.txt");
                 break;
             }
             checkCommand(command);
@@ -45,12 +43,12 @@ public class ToDoList {
         if (command == 1) {
             String todo1 = repeatToDo();
             System.out.println("You have typed: " + todo1);
-            normalToDo.addToDo(todo1);
+            toDoList.addToDo(todo1);
             System.out.println("");
         } else if (command == 2) {
             askremoveToDo();
         } else if (command == 3) {
-            normalToDo.printToDoList();
+            toDoList.printToDoList();
         } else {
             System.out.println("Sorry, can you type 1, 2, 3 or 4");
         }
@@ -60,17 +58,17 @@ public class ToDoList {
     // EFFECT: asks user what todo they want to remove
     public void askremoveToDo() {
         System.out.println("Which ToDo would you like to remove?");
-        normalToDo.printToDoList();
+        toDoList.printToDoList();
         int removeNum = scanner.nextInt();
-        normalToDo.removeToDo(removeNum);
+        toDoList.removeToDo(removeNum);
     }
 
     //EFFECT: prints a list of todos
     public void printToDoList() {
 //        ArrayList<String> toDoList = getToDoList();
         System.out.println("Current ToDos");
-        for (int i = 1; i <= normalToDo.getToDoList().size(); i++) {
-            System.out.println(i + " : " + (normalToDo.getToDoList().get(i - 1).getToDoName()));
+        for (int i = 1; i <= toDoList.getToDoList().size(); i++) {
+            System.out.println(i + " : " + (toDoList.getToDoList().get(i - 1).getToDoName()));
         }
         System.out.println("");
     }

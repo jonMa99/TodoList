@@ -1,7 +1,7 @@
 package test;
 
 import model.Saveable;
-import model.NormalToDo;
+import model.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestSaveable {
-    private NormalToDo todo;
+    private ToDoList todo;
 
     @BeforeEach
     public void setUp() throws IOException {
-        todo = new NormalToDo();
+        todo = new ToDoList();
     }
 
     @Test
