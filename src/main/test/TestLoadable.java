@@ -1,6 +1,7 @@
 package test;
 
 import model.Loadable;
+import model.NormalToDo;
 import model.ToDoList;
 import model.ToDo;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +18,7 @@ public class TestLoadable {
 
     @BeforeEach
     public void setUp() throws IOException {
-        toDoList = new ToDoList();
+        toDoList = new NormalToDo();
     }
 
     @Test
@@ -31,6 +32,6 @@ public class TestLoadable {
     }
 
     public void testLoad(Loadable l) throws IOException {
-        l.load("testinput.txt", "testinputremoved.txt");
+        l.load("testinput.txt", "toDoListoutput.txt", "testinputremoved.txt");
     }
 }

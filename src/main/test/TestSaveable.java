@@ -1,5 +1,6 @@
 package test;
 
+import model.NormalToDo;
 import model.Saveable;
 import model.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ public class TestSaveable {
 
     @BeforeEach
     public void setUp() throws IOException {
-        todo = new ToDoList();
+        todo = new NormalToDo();
     }
 
     @Test
@@ -38,6 +39,6 @@ public class TestSaveable {
     }
 
     public void testSave(Saveable s) throws IOException {
-        s.save("testoutput.txt", "testoutputremoved.txt");
+        s.save("testoutput.txt", "testurgentoutput.txt","testoutputremoved.txt");
     }
 }

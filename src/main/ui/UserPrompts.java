@@ -5,10 +5,12 @@ import java.util.Scanner;
 
 public class UserPrompts {
     private model.ToDoList toDoList;
+    private model.ToDoList urgenttoDoList;
     private Scanner scanner;                 //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
     public UserPrompts() throws IOException {
-        toDoList = new model.ToDoList();
+        toDoList = new model.NormalToDo();
+        urgenttoDoList = new model.UrgentToDo();
         scanner = new Scanner(System.in);
         whatToDo();
     }
@@ -20,15 +22,17 @@ public class UserPrompts {
         while (true) {
             System.out.println("What would you like to do?");
             System.out.println("1: Add something to your todo list");
-            System.out.println("2: Delete a todo");
-            System.out.println("3: Show todos");
-            System.out.println("4: Quit the program");
+            System.out.println("2: Add something to your urgent todo list");
+            System.out.println("3: Delete a todo");
+            System.out.println("4: Delete an urgenttodo");
+            System.out.println("5: Show todos and urgent todos");
+            System.out.println("6: Quit the program");
             System.out.println("");
 
             int command = scanner.nextInt();      //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
-            if (command == 4) {
-                toDoList.save("toDoListoutput.txt", "removeToDoListoutput.txt");
+            if (command == 6) {
+                toDoList.save("toDoListoutput.txt", "toDoListoutput.txt", "removeToDoListoutput.txt");
                 break;
             }
             checkCommand(command);
@@ -46,11 +50,17 @@ public class UserPrompts {
             toDoList.addToDo(todo1);
             System.out.println("");
         } else if (command == 2) {
-            askremoveToDo();
+            String urgenttodo = repeatToDo();
+            System.out.println("You have typed: " + urgenttodo);
+            urgenttoDoList.addToDo(urgenttodo);
         } else if (command == 3) {
-            toDoList.printToDoList();
+            askremoveToDo();
+        } else if (command == 4) {
+            askremoveUrgentToDo();
+        } else if (command == 5) {
+            printToDoList();
         } else {
-            System.out.println("Sorry, can you type 1, 2, 3 or 4");
+            System.out.println("Sorry, can you type 1, 2, 3, 4, 5 or 6");
         }
     }
 
@@ -58,18 +68,34 @@ public class UserPrompts {
     // EFFECT: asks user what todo they want to remove
     public void askremoveToDo() {
         System.out.println("Which ToDo would you like to remove?");
-        toDoList.printToDoList();
+        printToDoList();
         int removeNum = scanner.nextInt();
         toDoList.removeToDo(removeNum);
     }
 
+    // MODIFIES: removeToDo
+    // EFFECT: asks user what urgenttodo they want to remove
+    public void askremoveUrgentToDo() {
+        System.out.println("Which Urgent ToDo would you like to remove?");
+        printToDoList();
+        int removeNum = scanner.nextInt();
+        urgenttoDoList.removeToDo(removeNum);
+    }
+
+    // todo try to refactor this
     //EFFECT: prints a list of todos
     public void printToDoList() {
-//        ArrayList<String> toDoList = getToDoList();
         System.out.println("Current ToDos");
         for (int i = 1; i <= toDoList.getToDoList().size(); i++) {
             System.out.println(i + " : " + (toDoList.getToDoList().get(i - 1).getToDoName()));
         }
+        System.out.println("");
+        System.out.println("Current Urgent ToDos");
+        System.out.println("!!!!!");
+        for (int i = 1; i <= urgenttoDoList.getToDoList().size(); i++) {
+            System.out.println(i + " : " + (urgenttoDoList.getToDoList().get(i - 1).getToDoName()));
+        }
+        System.out.println("!!!!!");
         System.out.println("");
     }
 

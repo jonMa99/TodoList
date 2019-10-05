@@ -7,52 +7,60 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ToDoList implements Saveable, Loadable {
-    private ArrayList<ToDo> toDoList;
-    private ArrayList<ToDo> removedToDoList;
+public abstract class ToDoList implements Saveable, Loadable {
+    protected ArrayList<ToDo> normalToDoList;
+    protected ArrayList<ToDo> urgenttoDoList;
+    protected ArrayList<ToDo> removedToDoList;
 
     // EFFECT: Creates new ToDo
     public ToDoList() throws IOException {
-        toDoList = new ArrayList<>();
+        normalToDoList = new ArrayList<ToDo>();
+        urgenttoDoList = new ArrayList<ToDo>();
         removedToDoList = new ArrayList<>();
-        load("toDoListoutput.txt", "removeToDoListoutput.txt");
+        load("toDoListoutput.txt", "urgenttoDoListoutput.txt", "removeToDoListoutput.txt");
     }
 
     // MODIFIES: this
     // EFFECT: adds todo into the toDoList
-    public void addToDo(String todo) {
-        toDoList.add(new ToDo(todo));
-    }
+    public abstract void addToDo(String todo);
 
     // REQUIRES: toDoList has atleast 1 todo
     // EFFECT: removes specified todo and moves it to removedToDo
-    public void removeToDo(int removeNum) {
-        System.out.println("You have removed: " + toDoList.get(removeNum - 1).getToDoName());
-        moveToDoToRemovedToDo(removeNum);
-    }
+    public abstract void removeToDo(int removeNum);
+//    {
+//        System.out.println("You have removed: " + normalToDoList.get(removeNum - 1).getToDoName());
+//        moveToDoToRemovedToDo(removeNum);
+//    }
 
-    //EFFECT: prints a list of todos
-    public void printToDoList() {
-        System.out.println("Current ToDos");
-        for (int i = 1; i <= toDoList.size(); i++) {
-            System.out.println(i + " : " + (toDoList.get(i - 1).getToDoName()));
-        }
-        System.out.println("");
-    }
+    //EFFECT: prints a list of normaltodos and urgenttodos
+    public abstract void printToDoList();
+//    {
+//        System.out.println("Current ToDos");
+//        for (int i = 1; i <= normalToDoList.size(); i++) {
+//            System.out.println(i + " : " + (normalToDoList.get(i - 1).getToDoName()));
+//        }
+//        System.out.println("");
+//        System.out.println("Current Urgent ToDos");
+//        System.out.println("!!!!!");
+//        for (int i = 1; i <= urgenttoDoList.size(); i++) {
+//            System.out.println(i + " : " + (urgenttoDoList.get(i - 1).getToDoName()));
+//        }
+//        System.out.println("!!!!!");
+//    }
+
 
     // REQUIRES: toDoList has atleast 1 todo
     // MODIFIES: this
     // EFFECT: moves todo from toDoList to removedToDoList
-    public void moveToDoToRemovedToDo(int removeNum) {
-        ToDo moveToRemove = toDoList.get(removeNum - 1);
-        toDoList.remove(removeNum - 1);
-        removedToDoList.add(moveToRemove);
-    }
+    public abstract void moveToDoToRemovedToDo(int removeNum);
+//    {
+//        ToDo moveToRemove = normalToDoList.get(removeNum - 1);
+//        normalToDoList.remove(removeNum - 1);
+//        removedToDoList.add(moveToRemove);
+//    }
 
     // EFFECT: returns toDoList
-    public ArrayList<ToDo> getToDoList() {
-        return toDoList;
-    }
+    public abstract ArrayList<ToDo> getToDoList();
 
     // EFFECT: returns removeToDoList
     public ArrayList<ToDo> getRemovedToDoList() {
@@ -62,10 +70,14 @@ public class ToDoList implements Saveable, Loadable {
     @Override
     // MODIFIES: removedToDoList, toDoList
     // EFFECT: loads removeToDoListoutput.txt and toDoListoutput.txt files
-    public void load(String toDo, String removeList) throws IOException {
+    public void load(String toDo, String urgenttoDo, String removeList) throws IOException {
         List<String> todos = Files.readAllLines(Paths.get(toDo));   // CPSC 210 FileReaderWriter
         for (String s : todos) {
-            toDoList.add(new ToDo(s));
+            normalToDoList.add(new ToDo(s));
+        }
+        List<String> urgents = Files.readAllLines(Paths.get(toDo));   // CPSC 210 FileReaderWriter
+        for (String s : urgents) {
+            urgenttoDoList.add(new ToDo(s));
         }
         List<String> removes = Files.readAllLines(Paths.get("removeToDoListoutput.txt"));   // CPSC 210 FileReaderWriter
         for (String s : removes) {
@@ -77,10 +89,15 @@ public class ToDoList implements Saveable, Loadable {
     @Override
     // MODIFIES: removeToDoListoutput.txt, toDoListoutput.txt
     // EFFECT: saves toDos inside toDoList and removedToDoList into removedToDoListoutput.txt and toDoListoutput.txt
-    public void save(String toDo, String removeList) throws IOException {                                        // https://stackoverflow.com/questions/6548157/how-to-write-an-arraylist-of-strings-into-a-text-file
+    public void save(String toDo, String urgenttoDo, String removeList) throws IOException {                                        // https://stackoverflow.com/questions/6548157/how-to-write-an-arraylist-of-strings-into-a-text-file
         FileWriter todo = new FileWriter(toDo);
-        for (ToDo td : toDoList) {
+        for (ToDo td : normalToDoList) {
             todo.write(td.getToDoName() + "\n");
+        }
+        todo.close();
+        FileWriter urgent = new FileWriter(urgenttoDo);
+        for (ToDo utd : urgenttoDoList) {
+            urgent.write(utd.getToDoName() + "\n");
         }
         todo.close();
         FileWriter remove = new FileWriter(removeList);

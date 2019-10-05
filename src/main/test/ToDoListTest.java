@@ -1,5 +1,6 @@
 package test;
 
+import model.NormalToDo;
 import model.ToDoList;
 import model.ToDo;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +16,7 @@ public class ToDoListTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        todo = new ToDoList();
+        todo = new NormalToDo();
     }
 
     @Test
