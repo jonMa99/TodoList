@@ -1,8 +1,7 @@
 package test;
 
-import model.NormalToDo;
-import model.ToDoList;
 import model.ToDo;
+import model.UrgentToDo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,36 +10,36 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ToDoListTest extends UrgentToDoListTest {
-    private ToDoList todo;
+public class UrgentToDoListTest {
+    private UrgentToDo urgenttodo;
 
     @BeforeEach
     public void setUp() throws IOException {
-        todo = new NormalToDo();
+        urgenttodo = new UrgentToDo();
     }
 
     @Test
     public void testToDo() {
-        ArrayList<ToDo> todoList = todo.getToDoList();
+        ArrayList<ToDo> todoList = urgenttodo.getToDoList();
         assertEquals(0, todoList.size());
-        ArrayList<ToDo> removedToDoList = todo.getRemovedToDoList();
+        ArrayList<ToDo> removedToDoList = urgenttodo.getRemovedToDoList();
         assertEquals(0, removedToDoList.size());
     }
 
     @Test
     public void testAddToDo() {
-        todo.addToDo("CPSC-210");
-        ArrayList<ToDo> toDoList = todo.getToDoList();
+        urgenttodo.addToDo("CPSC-210");
+        ArrayList<ToDo> toDoList = urgenttodo.getToDoList();
         assertEquals(1, toDoList.size());
         assertEquals("CPSC-210",toDoList.get(0).getToDoName());
     }
 
     @Test
     public void testAddToDoLots() {
-        todo.addToDo("CPSC-210");
-        todo.addToDo("MATH-221");
-        todo.addToDo("MATH-200");
-        ArrayList<ToDo> toDoList = todo.getToDoList();
+        urgenttodo.addToDo("CPSC-210");
+        urgenttodo.addToDo("MATH-221");
+        urgenttodo.addToDo("MATH-200");
+        ArrayList<ToDo> toDoList = urgenttodo.getToDoList();
         assertEquals(3, toDoList.size());
         assertEquals("CPSC-210", toDoList.get(0).getToDoName());
         assertEquals("MATH-221", toDoList.get(1).getToDoName());
@@ -49,8 +48,8 @@ public class ToDoListTest extends UrgentToDoListTest {
 
     @Test
     public void testMoveToDoToRemovedToDo() {
-        ArrayList<ToDo> todoList = todo.getToDoList();
-        ArrayList<ToDo> removedToDoList = todo.getRemovedToDoList();
+        ArrayList<ToDo> todoList = urgenttodo.getToDoList();
+        ArrayList<ToDo> removedToDoList = urgenttodo.getRemovedToDoList();
         assertEquals(0, todoList.size());
         assertEquals(0, removedToDoList.size());
         todoList.add(new ToDo("CPSC"));
@@ -60,7 +59,7 @@ public class ToDoListTest extends UrgentToDoListTest {
         assertEquals(4, todoList.size());
         assertTrue(searchThroughListForName(todoList, "ENGL"));
         assertEquals(0, removedToDoList.size());
-        todo.moveToDoToRemovedToDo(3);
+        urgenttodo.moveToDoToRemovedToDo(3);
         assertEquals(3, todoList.size());
         assertEquals(1, removedToDoList.size());
         assertFalse(searchThroughListForName(todoList, "ENGL"));
@@ -69,10 +68,10 @@ public class ToDoListTest extends UrgentToDoListTest {
 
     @Test
     public void testGetToDoList() {
-        ArrayList<ToDo> todoList = todo.getToDoList();
+        ArrayList<ToDo> todoList = urgenttodo.getToDoList();
         assertEquals(0, todoList.size());
-        todo.addToDo("CPSC");
-        todo.addToDo("MATH");
+        urgenttodo.addToDo("CPSC");
+        urgenttodo.addToDo("MATH");
         assertEquals(2, todoList.size());
         assertEquals("CPSC", todoList.get(0).getToDoName());
         assertEquals("MATH", todoList.get(1).getToDoName());
@@ -80,20 +79,20 @@ public class ToDoListTest extends UrgentToDoListTest {
 
     @Test
     public void testRemovedToDo() {
-        todo.addToDo("Testing todo");
-        todo.addToDo("Another testing todo");
-        ArrayList<ToDo> todoList = todo.getToDoList();
+        urgenttodo.addToDo("Testing todo");
+        urgenttodo.addToDo("Another testing todo");
+        ArrayList<ToDo> todoList = urgenttodo.getToDoList();
         assertEquals(2, todoList.size());
         assertEquals("Testing todo", todoList.get(0).getToDoName());
         assertEquals("Another testing todo", todoList.get(1).getToDoName());
-        todo.removeToDo(1);
+        urgenttodo.removeToDo(1);
         assertEquals(1, todoList.size());
         assertEquals("Another testing todo", todoList.get(0).getToDoName());
     }
 
     @Test
     public void testGetRemovedToDoList() {
-        ArrayList<ToDo> removedToDoList = todo.getRemovedToDoList();
+        ArrayList<ToDo> removedToDoList = urgenttodo.getRemovedToDoList();
         assertEquals(0, removedToDoList.size());
         removedToDoList.add(new ToDo("CPSC"));
         removedToDoList.add(new ToDo("MATH"));
@@ -101,5 +100,13 @@ public class ToDoListTest extends UrgentToDoListTest {
         assertEquals("CPSC", removedToDoList.get(0).getToDoName());
         assertEquals("MATH", removedToDoList.get(1).getToDoName());
     }
-}
 
+    public boolean searchThroughListForName(ArrayList<ToDo> todolist, String s) {
+        for (ToDo td : todolist) {
+            if (td.getToDoName() == s) {
+                return true;
+            }
+        }
+        return false;
+    }
+}

@@ -21,9 +21,8 @@ public class NormalToDo extends ToDoList {
     // REQUIRES: normaltoDoList has atleast 1 normaltodo
     // EFFECT: removes specified normaltodo and moves it to removedToDo
     public void removeToDo(int removeNum) {
-        ToDo moveToRemove = normalToDoList.get(removeNum - 1);
-        normalToDoList.remove(removeNum - 1);
-        removedToDoList.add(moveToRemove);
+        System.out.println("You have removed: " + normalToDoList.get(removeNum - 1).getToDoName());
+        moveToDoToRemovedToDo(removeNum);
     }
 
     @Override
