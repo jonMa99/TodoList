@@ -2,6 +2,7 @@ package test;
 
 import model.Loadable;
 import model.NormalToDo;
+import model.ToDo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,13 +23,10 @@ public class TestLoadable {
     @Test
     public void testLoad() throws IOException {
         testLoad(normalToDo);
-        ArrayList<String> toDoList = normalToDo.getToDoList();
-        assertTrue(toDoList.contains("CPSC 110"));
-        assertTrue(toDoList.contains("CPSC 210"));
-        assertTrue(toDoList.contains("MATH 200"));
-        assertEquals("CPSC 210", toDoList.get(0));
-        assertEquals("CPSC 110", toDoList.get(1));
-        assertEquals("MATH 200", toDoList.get(2));
+        ArrayList<ToDo> toDoList = normalToDo.getToDoList();
+        assertEquals("CPSC 210", toDoList.get(0).getToDoName());
+        assertEquals("CPSC 110", toDoList.get(1).getToDoName());
+        assertEquals("MATH 200", toDoList.get(2).getToDoName());
         assertEquals(3, toDoList.size());
     }
 

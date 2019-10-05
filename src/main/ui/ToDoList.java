@@ -1,4 +1,6 @@
-package model;
+package ui;
+
+import model.NormalToDo;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -46,12 +48,20 @@ public class ToDoList {
             normalToDo.addToDo(todo1);
             System.out.println("");
         } else if (command == 2) {
-            normalToDo.removeToDo();
+            askremoveToDo();
         } else if (command == 3) {
             normalToDo.printToDoList();
         } else {
             System.out.println("Sorry, can you type 1, 2, 3 or 4");
         }
+    }
+
+    // MODIFIES: removeToDo
+    // EFFECT: asks user what todo they want to remove
+    public void askremoveToDo() {
+        System.out.println("Which ToDo would you like to remove?");
+        int removeNum = scanner.nextInt();
+        normalToDo.removeToDo(removeNum);
     }
 
     // EFFECT: returns what the user typed

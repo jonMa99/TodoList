@@ -1,6 +1,7 @@
 package test;
 
 import model.NormalToDo;
+import model.ToDo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,18 +20,18 @@ public class NormalToDoTest {
 
     @Test
     public void testToDo() {
-        ArrayList<String> todoList = todo.getToDoList();
+        ArrayList<ToDo> todoList = todo.getToDoList();
         assertEquals(0, todoList.size());
-        ArrayList<String> removedToDoList = todo.getRemovedToDoList();
+        ArrayList<ToDo> removedToDoList = todo.getRemovedToDoList();
         assertEquals(0, removedToDoList.size());
     }
 
     @Test
     public void testAddToDo() {
         todo.addToDo("CPSC-210");
-        ArrayList<String> toDoList = todo.getToDoList();
+        ArrayList<ToDo> toDoList = todo.getToDoList();
         assertEquals(1, toDoList.size());
-        assertEquals("CPSC-210",toDoList.get(0));
+        assertEquals("CPSC-210",toDoList.get(0).getToDoName());
     }
 
     @Test
@@ -38,66 +39,75 @@ public class NormalToDoTest {
         todo.addToDo("CPSC-210");
         todo.addToDo("MATH-221");
         todo.addToDo("MATH-200");
-        ArrayList<String> toDoList = todo.getToDoList();
+        ArrayList<ToDo> toDoList = todo.getToDoList();
         assertEquals(3, toDoList.size());
-        assertEquals("CPSC-210", toDoList.get(0));
-        assertEquals("MATH-221", toDoList.get(1));
-        assertEquals("MATH-200", toDoList.get(2));
+        assertEquals("CPSC-210", toDoList.get(0).getToDoName());
+        assertEquals("MATH-221", toDoList.get(1).getToDoName());
+        assertEquals("MATH-200", toDoList.get(2).getToDoName());
     }
 
-//    @Test  //todo finish this up
-//    public void testRemovedToDo() {
-//        todo.addToDo("Testing todo");
-//        todo.addToDo("Another testing todo");
-//        ArrayList<String> todoList = todo.getToDoList();
-//        assertEquals(2, todoList.size());
-//        assertEquals("Testing todo", todoList.get(0));
-//        assertEquals("Another testing todo", todoList.get(1));
-//        todo.removeToDo();
-//        assertEquals(1, todoList.size());
-//        assertEquals("Another testing todo", todoList.get(0));
-//    }
+    @Test
+    public void testRemovedToDo() {
+        todo.addToDo("Testing todo");
+        todo.addToDo("Another testing todo");
+        ArrayList<ToDo> todoList = todo.getToDoList();
+        assertEquals(2, todoList.size());
+        assertEquals("Testing todo", todoList.get(0).getToDoName());
+        assertEquals("Another testing todo", todoList.get(1).getToDoName());
+        todo.removeToDo(1);
+        assertEquals(1, todoList.size());
+        assertEquals("Another testing todo", todoList.get(0).getToDoName());
+    }
 
     @Test
     public void testMoveToDoToRemovedToDo() {
-        ArrayList<String> todoList = todo.getToDoList();
-        ArrayList<String> removedToDoList = todo.getRemovedToDoList();
+        ArrayList<ToDo> todoList = todo.getToDoList();
+        ArrayList<ToDo> removedToDoList = todo.getRemovedToDoList();
         assertEquals(0, todoList.size());
         assertEquals(0, removedToDoList.size());
-        todoList.add("CPSC");
-        todoList.add("MATH");
-        todoList.add("ENGL");
-        todoList.add("PSYC");
+        todoList.add(new ToDo("CPSC"));
+        todoList.add(new ToDo("MATH"));
+        todoList.add(new ToDo("ENGL"));
+        todoList.add(new ToDo("PSYC"));
         assertEquals(4, todoList.size());
-        assertTrue(todoList.contains("ENGL"));
+        assertTrue(searchThroughListForName(todoList, "ENGL"));
         assertEquals(0, removedToDoList.size());
         todo.moveToDoToRemovedToDo(3);
         assertEquals(3, todoList.size());
         assertEquals(1, removedToDoList.size());
-        assertFalse(todoList.contains("ENGL"));
-        assertEquals("ENGL", removedToDoList.get(0));
+        assertFalse(searchThroughListForName(todoList, "ENGL"));
+        assertEquals("ENGL", removedToDoList.get(0).getToDoName());
     }
 
     @Test
     public void testGetToDoList() {
-        ArrayList<String> todoList = todo.getToDoList();
+        ArrayList<ToDo> todoList = todo.getToDoList();
         assertEquals(0, todoList.size());
         todo.addToDo("CPSC");
         todo.addToDo("MATH");
         assertEquals(2, todoList.size());
-        assertEquals("CPSC", todoList.get(0));
-        assertEquals("MATH", todoList.get(1));
+        assertEquals("CPSC", todoList.get(0).getToDoName());
+        assertEquals("MATH", todoList.get(1).getToDoName());
     }
 
     @Test
     public void testGetRemovedToDoList() {
-        ArrayList<String> removedToDoList = todo.getRemovedToDoList();
+        ArrayList<ToDo> removedToDoList = todo.getRemovedToDoList();
         assertEquals(0, removedToDoList.size());
-        removedToDoList.add("CPSC");
-        removedToDoList.add("MATH");
+        removedToDoList.add(new ToDo("CPSC"));
+        removedToDoList.add(new ToDo("MATH"));
         assertEquals(2, removedToDoList.size());
-        assertEquals("CPSC", removedToDoList.get(0));
-        assertEquals("MATH", removedToDoList.get(1));
+        assertEquals("CPSC", removedToDoList.get(0).getToDoName());
+        assertEquals("MATH", removedToDoList.get(1).getToDoName());
+    }
+
+    public boolean searchThroughListForName(ArrayList<ToDo> todolist, String s) {
+        for (ToDo td : todolist) {
+            if (td.getToDoName() == s) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

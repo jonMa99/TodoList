@@ -1,7 +1,5 @@
 package ui;
 
-import model.ToDoList;
-
 import java.io.IOException;
 
 public class Main {
