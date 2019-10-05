@@ -60,8 +60,19 @@ public class ToDoList {
     // EFFECT: asks user what todo they want to remove
     public void askremoveToDo() {
         System.out.println("Which ToDo would you like to remove?");
+        normalToDo.printToDoList();
         int removeNum = scanner.nextInt();
         normalToDo.removeToDo(removeNum);
+    }
+
+    //EFFECT: prints a list of todos
+    public void printToDoList() {
+//        ArrayList<String> toDoList = getToDoList();
+        System.out.println("Current ToDos");
+        for (int i = 1; i <= normalToDo.getToDoList().size(); i++) {
+            System.out.println(i + " : " + (normalToDo.getToDoList().get(i - 1).getToDoName()));
+        }
+        System.out.println("");
     }
 
     // EFFECT: returns what the user typed
