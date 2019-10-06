@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class UrgentToDo extends ToDoList {
 
     public UrgentToDo() throws IOException {
-        urgenttoDoList = new ArrayList<ToDo>();
+//        urgenttoDoList = new ArrayList<ToDo>();
 //        load("urgenttoDoListoutput.txt", "removeToDoListoutput.txt");
     }
 
@@ -26,6 +26,16 @@ public class UrgentToDo extends ToDoList {
     }
 
     @Override
+    // REQUIRES: urgenttoDoList has atleast 1 todo
+    // MODIFIES: this
+    // EFFECT: moves urgenttodo from toDoList to removedToDoList
+    public void moveToDoToRemovedToDo(int removeNum) {
+        ToDo moveToRemove = urgenttoDoList.get(removeNum - 1);
+        urgenttoDoList.remove(removeNum - 1);
+        removedToDoList.add(moveToRemove);
+    }
+
+    @Override
     public void printToDoList() {
         System.out.println("Current Urgent ToDos");
         System.out.println("!!!!!");
@@ -34,16 +44,6 @@ public class UrgentToDo extends ToDoList {
         }
         System.out.println("!!!!!");
         System.out.println("");
-    }
-
-    @Override
-    // REQUIRES: urgenttoDoList has atleast 1 todo
-    // MODIFIES: this
-    // EFFECT: moves urgenttodo from toDoList to removedToDoList
-    public void moveToDoToRemovedToDo(int removeNum) {
-        ToDo moveToRemove = urgenttoDoList.get(removeNum - 1);
-        urgenttoDoList.remove(removeNum - 1);
-        removedToDoList.add(moveToRemove);
     }
 
     @Override

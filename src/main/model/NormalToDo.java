@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class NormalToDo extends ToDoList {
 
     public NormalToDo() throws IOException {
-        normalToDoList = new ArrayList<ToDo>();
+//        normalToDoList = new ArrayList<ToDo>();
 //        load("toDoListoutput.txt", "removeToDoListoutput.txt");
     }
 
@@ -26,17 +26,6 @@ public class NormalToDo extends ToDoList {
     }
 
     @Override
-    //EFFECT: prints a list of normaltodos
-    public void printToDoList() {
-        System.out.println("Current ToDos");
-        for (int i = 1; i <= normalToDoList.size(); i++) {
-            System.out.println(i + " : " + (normalToDoList.get(i - 1).getToDoName()));
-        }
-        System.out.println("");
-    }
-
-
-    @Override
     // REQUIRES: normaltoDoList has atleast 1 normaltodo
     // MODIFIES: this
     // EFFECT: moves normaltodo from normaltoDoList to removedToDoList
@@ -46,6 +35,15 @@ public class NormalToDo extends ToDoList {
         removedToDoList.add(moveToRemove);
     }
 
+    @Override
+    //EFFECT: prints a list of normaltodos
+    public void printToDoList() {
+        System.out.println("Current ToDos");
+        for (int i = 1; i <= normalToDoList.size(); i++) {
+            System.out.println(i + " : " + (normalToDoList.get(i - 1).getToDoName()));
+        }
+        System.out.println("");
+    }
 
     @Override
     // EFFECT: returns normaltoDoList
