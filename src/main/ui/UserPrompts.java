@@ -1,15 +1,17 @@
 package ui;
 
+import model.ToDoList;
+
 import java.io.IOException;
 import java.util.Scanner;
 
 public class UserPrompts {
-    private model.ToDoList toDoList;
+    private model.ToDoList normaltoDoList;
     private model.ToDoList urgenttoDoList;
     private Scanner scanner;                 //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
     public UserPrompts() throws IOException {
-        toDoList = new model.NormalToDo();
+        normaltoDoList = new model.NormalToDo();
         urgenttoDoList = new model.UrgentToDo();
         scanner = new Scanner(System.in);
         whatToDo();
@@ -32,7 +34,7 @@ public class UserPrompts {
             int command = scanner.nextInt();      //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
             if (command == 6) {
-                toDoList.save("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
+                normaltoDoList.save("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
                         "./data/removeToDoListoutput.txt");
                 break;
             }
@@ -48,7 +50,7 @@ public class UserPrompts {
         if (command == 1) {
             String todo1 = repeatToDo();
             System.out.println("You have typed: " + todo1);
-            toDoList.addToDo(todo1);
+            normaltoDoList.addToDo(todo1);
             System.out.println("");
         } else if (command == 2) {
             String urgenttodo = repeatToDo();
@@ -59,46 +61,51 @@ public class UserPrompts {
         } else if (command == 4) {
             askremoveUrgentToDo();
         } else if (command == 5) {
-            printToDoList();
+            printBothToDos();
         } else {
             System.out.println("Sorry, can you type 1, 2, 3, 4, 5 or 6");
         }
+    }
+
+    private void printBothToDos() {
+        normaltoDoList.printToDoList();
+        urgenttoDoList.printToDoList();
     }
 
     // MODIFIES: removeToDo
     // EFFECT: asks user what todo they want to remove
     public void askremoveToDo() {
         System.out.println("Which ToDo would you like to remove?");
-        printToDoList();
+        normaltoDoList.printToDoList();
         int removeNum = scanner.nextInt();
-        toDoList.removeToDo(removeNum);
+        normaltoDoList.removeToDo(removeNum);
     }
 
     // MODIFIES: removeToDo
     // EFFECT: asks user what urgenttodo they want to remove
     public void askremoveUrgentToDo() {
         System.out.println("Which Urgent ToDo would you like to remove?");
-        printToDoList();
+        urgenttoDoList.printToDoList();
         int removeNum = scanner.nextInt();
         urgenttoDoList.removeToDo(removeNum);
     }
 
-    // todo try to refactor this
-    //EFFECT: prints a list of todos
-    public void printToDoList() {
-        System.out.println("Current ToDos");
-        for (int i = 1; i <= toDoList.getToDoList().size(); i++) {
-            System.out.println(i + " : " + (toDoList.getToDoList().get(i - 1).getToDoName()));
-        }
-        System.out.println("");
-        System.out.println("Current Urgent ToDos");
-        System.out.println("!!!!!");
-        for (int i = 1; i <= urgenttoDoList.getToDoList().size(); i++) {
-            System.out.println(i + " : " + (urgenttoDoList.getToDoList().get(i - 1).getToDoName()));
-        }
-        System.out.println("!!!!!");
-        System.out.println("");
-    }
+//    // todo try to refactor this
+//    //EFFECT: prints a list of todos
+//    public void printToDoList() {
+//        System.out.println("Current ToDos");
+//        for (int i = 1; i <= toDoList.getToDoList().size(); i++) {
+//            System.out.println(i + " : " + (toDoList.getToDoList().get(i - 1).getToDoName()));
+//        }
+//        System.out.println("");
+//        System.out.println("Current Urgent ToDos");
+//        System.out.println("!!!!!");
+//        for (int i = 1; i <= urgenttoDoList.getToDoList().size(); i++) {
+//            System.out.println(i + " : " + (urgenttoDoList.getToDoList().get(i - 1).getToDoName()));
+//        }
+//        System.out.println("!!!!!");
+//        System.out.println("");
+//    }
 
     // EFFECT: returns what the user typed
     public String repeatToDo() {

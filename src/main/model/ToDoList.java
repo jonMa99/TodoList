@@ -17,7 +17,8 @@ public abstract class ToDoList implements Saveable, Loadable {
         normalToDoList = new ArrayList<ToDo>();
         urgenttoDoList = new ArrayList<ToDo>();
         removedToDoList = new ArrayList<>();
-        load("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt", "./data/removeToDoListoutput.txt");
+        load("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
+                "./data/removeToDoListoutput.txt");
     }
 
     // MODIFIES: this
@@ -90,17 +91,17 @@ public abstract class ToDoList implements Saveable, Loadable {
     // MODIFIES: removeToDoListoutput.txt, toDoListoutput.txt
     // EFFECT: saves toDos inside toDoList and removedToDoList into removedToDoListoutput.txt and toDoListoutput.txt
     public void save(String toDo, String urgenttoDo, String removeList) throws IOException {                                        // https://stackoverflow.com/questions/6548157/how-to-write-an-arraylist-of-strings-into-a-text-file
-        FileWriter todo = new FileWriter(toDo);
+        FileWriter todo = new FileWriter(toDo, true);
         for (ToDo td : normalToDoList) {
             todo.write(td.getToDoName() + "\n");
         }
         todo.close();
-        FileWriter urgent = new FileWriter(urgenttoDo);
+        FileWriter urgent = new FileWriter(urgenttoDo, true);
         for (ToDo utd : urgenttoDoList) {
             urgent.write(utd.getToDoName() + "\n");
         }
-        todo.close();
-        FileWriter remove = new FileWriter(removeList);
+        urgent.close();
+        FileWriter remove = new FileWriter(removeList, true);
         for (ToDo rtd : removedToDoList) {
             remove.write(rtd.getToDoName() + "\n");
         }
