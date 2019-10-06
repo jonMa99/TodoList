@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class UrgentToDo extends ToDoList {
 
     public UrgentToDo() throws IOException {
-//        urgenttoDoList = new ArrayList<ToDo>();
+        urgenttoDoList = new ArrayList<ToDo>();
 //        load("urgenttoDoListoutput.txt", "removeToDoListoutput.txt");
     }
 

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class NormalToDo extends ToDoList {
 
     public NormalToDo() throws IOException {
-//        normalToDoList = new ArrayList<ToDo>();
+        normalToDoList = new ArrayList<ToDo>();
 //        load("toDoListoutput.txt", "removeToDoListoutput.txt");
     }
 
