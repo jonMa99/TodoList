@@ -1,8 +1,5 @@
-package test;
+package model;
 
-import model.NormalToDo;
-import model.ToDoList;
-import model.ToDo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
