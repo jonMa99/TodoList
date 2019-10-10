@@ -1,5 +1,6 @@
 package ui;
 
+import exception.EmptyToDoListException;
 import model.ToDoList;
 
 import java.io.IOException;
@@ -78,7 +79,11 @@ public class UserPrompts {
         System.out.println("Which ToDo would you like to remove?");
         normaltoDoList.printToDoList();
         int removeNum = scanner.nextInt();
-        normaltoDoList.removeToDo(removeNum);
+        try {
+            normaltoDoList.removeToDo(removeNum);
+        } catch (EmptyToDoListException e) {
+            System.out.println("The NormalToDoList is empty. You have nothing to remove!");
+        }
     }
 
     // MODIFIES: removeToDo
@@ -87,7 +92,11 @@ public class UserPrompts {
         System.out.println("Which Urgent ToDo would you like to remove?");
         urgenttoDoList.printToDoList();
         int removeNum = scanner.nextInt();
-        urgenttoDoList.removeToDo(removeNum);
+        try {
+            urgenttoDoList.removeToDo(removeNum);
+        } catch (EmptyToDoListException e) {
+            System.out.println("");
+        }
     }
 
 //    // todo try to refactor this

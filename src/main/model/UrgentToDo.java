@@ -1,5 +1,8 @@
 package model;
 
+import exception.EmptyToDoListException;
+import sun.invoke.empty.Empty;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -7,6 +10,7 @@ public class UrgentToDo extends ToDoList {
 
     public UrgentToDo() throws IOException {
         urgenttoDoList = new ArrayList<ToDo>();
+        typeoflist = "urgent";
 //        load("urgenttoDoListoutput.txt", "removeToDoListoutput.txt");
     }
 
@@ -20,7 +24,10 @@ public class UrgentToDo extends ToDoList {
     @Override
     // REQUIRES: urgenttoDoList has atleast 1 urgenttodo
     // EFFECT: removes specified urgenttodo and moves it to removedToDo
-    public void removeToDo(int removeNum) {
+    public void removeToDo(int removeNum) throws EmptyToDoListException {
+        if (urgenttoDoList.size() == 0) {
+            throw new EmptyToDoListException();
+        }
         System.out.println("You have removed: " + urgenttoDoList.get(removeNum - 1).getToDoName());
         moveToDoToRemovedToDo(removeNum);
     }

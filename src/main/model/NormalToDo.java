@@ -1,5 +1,7 @@
 package model;
 
+import exception.EmptyToDoListException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -7,6 +9,7 @@ public class NormalToDo extends ToDoList {
 
     public NormalToDo() throws IOException {
         normalToDoList = new ArrayList<ToDo>();
+        typeoflist = "normal";
 //        load("toDoListoutput.txt", "removeToDoListoutput.txt");
     }
 
@@ -20,7 +23,10 @@ public class NormalToDo extends ToDoList {
     @Override
     // REQUIRES: normaltoDoList has atleast 1 normaltodo
     // EFFECT: removes specified normaltodo and moves it to removedToDo
-    public void removeToDo(int removeNum) {
+    public void removeToDo(int removeNum) throws EmptyToDoListException {
+        if (normalToDoList.size() == 0) {
+            throw new EmptyToDoListException();
+        }
         System.out.println("You have removed: " + normalToDoList.get(removeNum - 1).getToDoName());
         moveToDoToRemovedToDo(removeNum);
     }
