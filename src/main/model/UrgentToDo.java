@@ -22,7 +22,6 @@ public class UrgentToDo extends ToDoList {
     }
 
     @Override
-    // REQUIRES: urgenttoDoList has atleast 1 urgenttodo
     // EFFECT: removes specified urgenttodo and moves it to removedToDo
     public void removeToDo(int removeNum) throws EmptyToDoListException {
         if (urgenttoDoList.size() == 0) {

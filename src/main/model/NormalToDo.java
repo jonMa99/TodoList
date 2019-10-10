@@ -21,7 +21,6 @@ public class NormalToDo extends ToDoList {
     }
 
     @Override
-    // REQUIRES: normaltoDoList has atleast 1 normaltodo
     // EFFECT: removes specified normaltodo and moves it to removedToDo
     public void removeToDo(int removeNum) throws EmptyToDoListException {
         if (normalToDoList.size() == 0) {

@@ -1,5 +1,6 @@
 package model;
 
+import exception.EmptyToDoListException;
 import model.ToDo;
 import model.UrgentToDo;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,7 +79,7 @@ public class UrgentToDoListTest {
     }
 
     @Test
-    public void testRemovedToDo() {
+    public void testRemovedToDo() throws EmptyToDoListException {
         urgenttodo.addToDo("Testing todo");
         urgenttodo.addToDo("Another testing todo");
         ArrayList<ToDo> todoList = urgenttodo.getToDoList();

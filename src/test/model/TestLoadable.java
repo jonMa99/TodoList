@@ -1,9 +1,6 @@
 package model;
 
-import model.Loadable;
-import model.NormalToDo;
-import model.ToDoList;
-import model.ToDo;
+import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,17 +11,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestLoadable {
-    private ToDoList toDoList;
+    private ToDoList normaltoDoList;
+    private ToDoList urgenttoDoList;
 
     @BeforeEach
     public void setUp() throws IOException {
-        toDoList = new NormalToDo();
+        normaltoDoList = new NormalToDo();
+        urgenttoDoList = new UrgentToDo();
     }
 
     @Test
     public void testLoad() throws IOException {
-        testLoad(toDoList);
-        ArrayList<ToDo> toDoList = this.toDoList.getToDoList();
+        testLoad(normaltoDoList);
+        ArrayList<ToDo> toDoList = normaltoDoList.getToDoList();
         assertEquals("CPSC 210", toDoList.get(0).getToDoName());
         assertEquals("CPSC 110", toDoList.get(1).getToDoName());
         assertEquals("MATH 200", toDoList.get(2).getToDoName());

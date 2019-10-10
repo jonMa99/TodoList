@@ -1,5 +1,6 @@
 package model;
 
+import exception.EmptyToDoListException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ToDoListTest extends UrgentToDoListTest {
+public class ToDoListTest {
     private ToDoList todo;
 
     @BeforeEach
@@ -45,6 +46,19 @@ public class ToDoListTest extends UrgentToDoListTest {
     }
 
     @Test
+    public void testRemovedToDo() throws EmptyToDoListException {
+        todo.addToDo("Testing todo");
+        todo.addToDo("Another testing todo");
+        ArrayList<ToDo> todoList = todo.getToDoList();
+        assertEquals(2, todoList.size());
+        assertEquals("Testing todo", todoList.get(0).getToDoName());
+        assertEquals("Another testing todo", todoList.get(1).getToDoName());
+        todo.removeToDo(1);
+        assertEquals(1, todoList.size());
+        assertEquals("Another testing todo", todoList.get(0).getToDoName());
+    }
+
+    @Test
     public void testMoveToDoToRemovedToDo() {
         ArrayList<ToDo> todoList = todo.getToDoList();
         ArrayList<ToDo> removedToDoList = todo.getRemovedToDoList();
@@ -76,19 +90,6 @@ public class ToDoListTest extends UrgentToDoListTest {
     }
 
     @Test
-    public void testRemovedToDo() {
-        todo.addToDo("Testing todo");
-        todo.addToDo("Another testing todo");
-        ArrayList<ToDo> todoList = todo.getToDoList();
-        assertEquals(2, todoList.size());
-        assertEquals("Testing todo", todoList.get(0).getToDoName());
-        assertEquals("Another testing todo", todoList.get(1).getToDoName());
-        todo.removeToDo(1);
-        assertEquals(1, todoList.size());
-        assertEquals("Another testing todo", todoList.get(0).getToDoName());
-    }
-
-    @Test
     public void testGetRemovedToDoList() {
         ArrayList<ToDo> removedToDoList = todo.getRemovedToDoList();
         assertEquals(0, removedToDoList.size());
@@ -97,6 +98,15 @@ public class ToDoListTest extends UrgentToDoListTest {
         assertEquals(2, removedToDoList.size());
         assertEquals("CPSC", removedToDoList.get(0).getToDoName());
         assertEquals("MATH", removedToDoList.get(1).getToDoName());
+    }
+
+    public boolean searchThroughListForName(ArrayList<ToDo> todolist, String s) {
+        for (ToDo td : todolist) {
+            if (td.getToDoName() == s) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
