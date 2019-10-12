@@ -1,6 +1,7 @@
 package model;
 
 import exception.EmptyNormalToDoListException;
+import exception.EmptyUrgentToDoListException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ToDoListTest {
-    private ToDoList todo;
+    private NormalToDo todo;
 
     @BeforeEach
     public void setUp() throws IOException {
@@ -46,7 +47,7 @@ public class ToDoListTest {
     }
 
     @Test
-    public void testRemovedToDo() throws EmptyNormalToDoListException {
+    public void testRemovedToDo() throws EmptyNormalToDoListException, EmptyUrgentToDoListException {
         todo.addToDo("Testing todo");
         todo.addToDo("Another testing todo");
         ArrayList<ToDo> todoList = todo.getToDoList();
@@ -59,6 +60,17 @@ public class ToDoListTest {
     }
 
     @Test
+    public void testRemovedToDoEmptyThrowEmptyNormalToDoListException() {
+        try {
+            todo.removeToDo(0);
+            fail("Should throw EmptyNormalToDoListException");
+        } catch (EmptyNormalToDoListException e) {
+
+        }
+    }
+
+
+        @Test
     public void testMoveToDoToRemovedToDo() {
         ArrayList<ToDo> todoList = todo.getToDoList();
         ArrayList<ToDo> removedToDoList = todo.getRemovedToDoList();

@@ -1,9 +1,12 @@
 package ui;
 
 import exception.EmptyNormalToDoListException;
+import exception.EmptyUrgentToDoListException;
 import exception.TooManyToDosException;
 import exception.WrongCommandInputException;
+import model.ToDoList;
 
+import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -39,6 +42,11 @@ public class UserPrompts {
                 checkCommand(command);
             } catch (WrongCommandInputException e) {
                 System.out.println("Sorry, can you type a number 1 - 6");
+            } catch (TooManyToDosException e) {
+                System.out.println("Sorry you have too many exceptions. Can you remove some before adding a new one?");
+            } finally {
+                System.out.println("Thanks for using our todo list!");
+                System.out.println("");
             }
         }
         System.out.println("Goodbye!");
@@ -55,29 +63,24 @@ public class UserPrompts {
         System.out.println("");
     }
 
-    private void checkOutListSize() throws TooManyToDosException {
-        if (normaltoDoList.getToDoList().size() == MAXTODOLISTSIZE) {
-            throw new TooManyToDosException();
-        }
-        if (normaltoDoList.getToDoList().size() == MAXTODOLISTSIZE) {
+    public void checkOutListSize(ToDoList typeofTodoList) throws TooManyToDosException {
+        if (typeofTodoList.getToDoList().size() == MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
         }
     }
 
     // MODIFIES: todo.addToDo, todo.removeToDo
     // EFFECT: takes user input and advances program based on user input
-    public void checkCommand(int command) throws WrongCommandInputException {
+    public void checkCommand(int command) throws WrongCommandInputException, TooManyToDosException {
         if (command < 1 || command > 6) {
             throw new WrongCommandInputException();
         }
         if (command == 1) {
-            String todo1 = repeatToDo();
-            System.out.println("You have typed: " + todo1);
-            normaltoDoList.addToDo(todo1);
+            checkOutListSize(normaltoDoList);
+            addToDo(normaltoDoList);
         } else if (command == 2) {
-            String urgenttodo = repeatToDo();
-            System.out.println("You have typed: " + urgenttodo);
-            urgenttoDoList.addToDo(urgenttodo);
+            checkOutListSize(urgenttoDoList);
+            addToDo(urgenttoDoList);
         } else if (command == 3) {
             askremoveToDo();
         } else if (command == 4) {
@@ -85,6 +88,12 @@ public class UserPrompts {
         } else {
             printBothToDos();
         }
+    }
+
+    private void addToDo(ToDoList normaltoDoList) {
+        String todo1 = repeatToDo();
+        System.out.println("You have typed: " + todo1);
+        normaltoDoList.addToDo(todo1);
     }
 
     private void printBothToDos() {
@@ -102,6 +111,8 @@ public class UserPrompts {
             normaltoDoList.removeToDo(removeNum);
         } catch (EmptyNormalToDoListException e) {
             System.out.println("The NormalToDoList is empty. You have nothing to remove!");
+        } catch (EmptyUrgentToDoListException e) {
+            // Should not be called
         }
     }
 
@@ -113,8 +124,10 @@ public class UserPrompts {
         int removeNum = scanner.nextInt();
         try {
             urgenttoDoList.removeToDo(removeNum);
-        } catch (EmptyNormalToDoListException e) {
+        } catch (EmptyUrgentToDoListException e) {
             System.out.println("The UrgentToDoList is empty. You have nothing to remove!");
+        } catch (EmptyNormalToDoListException e) {
+            // Should not be called
         }
     }
 

@@ -1,6 +1,7 @@
 package model;
 
 import exception.EmptyNormalToDoListException;
+import exception.EmptyUrgentToDoListException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +31,7 @@ public class UrgentToDoListTest {
         urgenttodo.addToDo("CPSC-210");
         ArrayList<ToDo> toDoList = urgenttodo.getToDoList();
         assertEquals(1, toDoList.size());
-        assertEquals("CPSC-210",toDoList.get(0).getToDoName());
+        assertEquals("CPSC-210", toDoList.get(0).getToDoName());
     }
 
     @Test
@@ -77,7 +78,7 @@ public class UrgentToDoListTest {
     }
 
     @Test
-    public void testRemovedToDo() throws EmptyNormalToDoListException {
+    public void testRemovedToDo() throws EmptyNormalToDoListException, EmptyUrgentToDoListException {
         urgenttodo.addToDo("Testing todo");
         urgenttodo.addToDo("Another testing todo");
         ArrayList<ToDo> todoList = urgenttodo.getToDoList();
@@ -90,8 +91,13 @@ public class UrgentToDoListTest {
     }
 
     @Test
-    public void testRemovedToDoEmpty() {
-        
+    public void testRemoveToDoEmptyThrowEmptyUrgentToDoListException() {
+        try {
+            urgenttodo.removeToDo(0);
+            fail("Suppose to throw EmptyUrgentToDoListException");
+        } catch (EmptyUrgentToDoListException e) {
+
+        }
     }
 
     @Test

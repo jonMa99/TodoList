@@ -1,6 +1,7 @@
 package model;
 
 import exception.EmptyNormalToDoListException;
+import exception.EmptyUrgentToDoListException;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public abstract class ToDoList implements Saveable, Loadable {
 
     // REQUIRES: toDoList has atleast 1 todo
     // EFFECT: removes specified todo and moves it to removedToDo
-    public abstract void removeToDo(int removeNum) throws EmptyNormalToDoListException;
+    public abstract void removeToDo(int removeNum) throws EmptyNormalToDoListException, EmptyUrgentToDoListException;
 //    {
 //        System.out.println("You have removed: " + normalToDoList.get(removeNum - 1).getToDoName());
 //        moveToDoToRemovedToDo(removeNum);
