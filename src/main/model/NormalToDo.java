@@ -1,6 +1,6 @@
 package model;
 
-import exception.EmptyToDoListException;
+import exception.EmptyNormalToDoListException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,9 +22,9 @@ public class NormalToDo extends ToDoList {
 
     @Override
     // EFFECT: removes specified normaltodo and moves it to removedToDo
-    public void removeToDo(int removeNum) throws EmptyToDoListException {
+    public void removeToDo(int removeNum) throws EmptyNormalToDoListException {
         if (normalToDoList.size() == 0) {
-            throw new EmptyToDoListException();
+            throw new EmptyNormalToDoListException();
         }
         System.out.println("You have removed: " + normalToDoList.get(removeNum - 1).getToDoName());
         moveToDoToRemovedToDo(removeNum);

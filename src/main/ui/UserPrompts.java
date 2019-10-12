@@ -1,6 +1,6 @@
 package ui;
 
-import exception.EmptyToDoListException;
+import exception.EmptyNormalToDoListException;
 import exception.TooManyToDosException;
 import exception.WrongCommandInputException;
 
@@ -100,7 +100,7 @@ public class UserPrompts {
         int removeNum = scanner.nextInt();
         try {
             normaltoDoList.removeToDo(removeNum);
-        } catch (EmptyToDoListException e) {
+        } catch (EmptyNormalToDoListException e) {
             System.out.println("The NormalToDoList is empty. You have nothing to remove!");
         }
     }
@@ -113,7 +113,7 @@ public class UserPrompts {
         int removeNum = scanner.nextInt();
         try {
             urgenttoDoList.removeToDo(removeNum);
-        } catch (EmptyToDoListException e) {
+        } catch (EmptyNormalToDoListException e) {
             System.out.println("The UrgentToDoList is empty. You have nothing to remove!");
         }
     }

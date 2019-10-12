@@ -1,6 +1,6 @@
 package model;
 
-import exception.EmptyToDoListException;
+import exception.EmptyNormalToDoListException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +46,7 @@ public class ToDoListTest {
     }
 
     @Test
-    public void testRemovedToDo() throws EmptyToDoListException {
+    public void testRemovedToDo() throws EmptyNormalToDoListException {
         todo.addToDo("Testing todo");
         todo.addToDo("Another testing todo");
         ArrayList<ToDo> todoList = todo.getToDoList();
