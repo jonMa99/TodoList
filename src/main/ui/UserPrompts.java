@@ -27,15 +27,11 @@ public class UserPrompts {
     // MODIFIES: checkCommand
     // EFFECT: Asks user what they want to do
     public void whatToDo() throws IOException {
-
         while (true) {
             printOutMenu();
-
             int command = scanner.nextInt();      //CPSC 210 B04-SimpleCalculatorSolutionLecLab
-
             if (command == 6) {
-                normaltoDoList.save("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
-                        "./data/removeToDoListoutput.txt");
+                saveToDoList(normaltoDoList);
                 break;
             }
             try {
@@ -45,11 +41,15 @@ public class UserPrompts {
             } catch (TooManyToDosException e) {
                 System.out.println("Sorry you have too many exceptions. Can you remove some before adding a new one?");
             } finally {
-                System.out.println("Thanks for using our todo list!");
-                System.out.println("");
+                System.out.println("Thanks for using our todo list! \n");
             }
         }
         System.out.println("Goodbye!");
+    }
+
+    private void saveToDoList(ToDoList tdl) throws IOException {
+        tdl.save("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
+                "./data/removeToDoListoutput.txt");
     }
 
     private void printOutMenu() {
