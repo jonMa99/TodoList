@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ToDoListTest {
-    private NormalToDo todo;
+    private ToDoList todo;
 
     @BeforeEach
     public void setUp() throws IOException {
@@ -66,6 +66,8 @@ public class ToDoListTest {
             fail("Should throw EmptyNormalToDoListException");
         } catch (EmptyNormalToDoListException e) {
 
+        } catch (EmptyUrgentToDoListException e) {
+            fail("Wrong type of exception thrown");
         }
     }
 
