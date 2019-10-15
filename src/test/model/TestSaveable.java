@@ -1,5 +1,6 @@
 package model;
 
+import exception.TooManyToDosException;
 import model.NormalToDo;
 import model.Saveable;
 import model.ToDoList;
@@ -26,7 +27,7 @@ public class TestSaveable {
     }
 
     @Test
-    public void testSave() throws IOException {
+    public void testSave() throws IOException, TooManyToDosException {
         FileWriter todosave = new FileWriter("./data/testoutput.txt");
         todosave.close();
         todo.addToDo("CPSC");

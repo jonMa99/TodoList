@@ -6,13 +6,10 @@ import exception.TooManyToDosException;
 import exception.WrongCommandInputException;
 import model.ToDoList;
 
-import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class UserPrompts {
-    public static final int MAXTODOLISTSIZE = 10;
-
     private model.ToDoList normaltoDoList;
     private model.ToDoList urgenttoDoList;
     private Scanner scanner;                 //CPSC 210 B04-SimpleCalculatorSolutionLecLab
@@ -38,8 +35,6 @@ public class UserPrompts {
                 checkCommand(command);
             } catch (WrongCommandInputException e) {
                 System.out.println("Sorry, can you type a number 1 - 6");
-            } catch (TooManyToDosException e) {
-                System.out.println("Sorry you have too many exceptions. Can you remove some before adding a new one?");
             } finally {
                 System.out.println("Thanks for using our todo list! \n");
             }
@@ -63,24 +58,19 @@ public class UserPrompts {
         System.out.println("");
     }
 
-    public void checkOutListSize(ToDoList typeofTodoList) throws TooManyToDosException {
-        if (typeofTodoList.getToDoList().size() == MAXTODOLISTSIZE) {
-            throw new TooManyToDosException();
-        }
-    }
 
     // MODIFIES: todo.addToDo, todo.removeToDo
     // EFFECT: takes user input and advances program based on user input
-    public void checkCommand(int command) throws WrongCommandInputException, TooManyToDosException {
+    public void checkCommand(int command) throws WrongCommandInputException {
         if (command < 1 || command > 6) {
             throw new WrongCommandInputException();
         }
         if (command == 1) {
-            checkOutListSize(normaltoDoList);
-            addToDo(normaltoDoList);
+            addToDo(normaltoDoList, "Sorry you have too many normal todos."
+                    + " Can you remove some before adding a new one?");
         } else if (command == 2) {
-            checkOutListSize(urgenttoDoList);
-            addToDo(urgenttoDoList);
+            addToDo(urgenttoDoList, "Sorry you have too many urgent todos."
+                    + " Can you remove some before adding a new one?");
         } else if (command == 3) {
             askremoveToDo();
         } else if (command == 4) {
@@ -90,7 +80,15 @@ public class UserPrompts {
         }
     }
 
-    private void addToDo(ToDoList normaltoDoList) {
+    private void addToDo(ToDoList todoList, String s) {
+        try {
+            addToDo(todoList);
+        } catch (TooManyToDosException e) {
+            System.out.println(s);
+        }
+    }
+
+    private void addToDo(ToDoList normaltoDoList) throws TooManyToDosException {
         String todo1 = repeatToDo();
         System.out.println("You have typed: " + todo1);
         normaltoDoList.addToDo(todo1);

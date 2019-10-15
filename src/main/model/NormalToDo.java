@@ -1,6 +1,7 @@
 package model;
 
 import exception.EmptyNormalToDoListException;
+import exception.TooManyToDosException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +17,10 @@ public class NormalToDo extends ToDoList {
     @Override
     // MODIFIES: this
     // EFFECT: adds normaltodo into the normaltoDoList
-    public void addToDo(String todo) {
+    public void addToDo(String todo) throws TooManyToDosException {
+        if (normalToDoList.size() >= MAXTODOLISTSIZE) {
+            throw new TooManyToDosException();
+        }
         normalToDoList.add(new ToDo(todo));
     }
 

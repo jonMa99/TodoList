@@ -2,6 +2,7 @@ package model;
 
 import exception.EmptyNormalToDoListException;
 import exception.EmptyUrgentToDoListException;
+import exception.TooManyToDosException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,11 @@ public class ToDoListTest {
 
     @Test
     public void testAddToDo() {
-        todo.addToDo("CPSC-210");
+        try {
+            todo.addToDo("CPSC-210");
+        } catch (TooManyToDosException e) {
+            fail("No exceptions thrown");
+        }
         ArrayList<ToDo> toDoList = todo.getToDoList();
         assertEquals(1, toDoList.size());
         assertEquals("CPSC-210",toDoList.get(0).getToDoName());
@@ -36,9 +41,13 @@ public class ToDoListTest {
 
     @Test
     public void testAddToDoLots() {
-        todo.addToDo("CPSC-210");
-        todo.addToDo("MATH-221");
-        todo.addToDo("MATH-200");
+        try {
+            todo.addToDo("CPSC-210");
+            todo.addToDo("MATH-221");
+            todo.addToDo("MATH-200");
+        } catch (TooManyToDosException e) {
+            fail("No over max size");
+        }
         ArrayList<ToDo> toDoList = todo.getToDoList();
         assertEquals(3, toDoList.size());
         assertEquals("CPSC-210", toDoList.get(0).getToDoName());
@@ -47,9 +56,33 @@ public class ToDoListTest {
     }
 
     @Test
+    public void testAddOverMaxToDo() {
+        try {
+            todo.addToDo("1");
+            todo.addToDo("2");
+            todo.addToDo("3");
+            todo.addToDo("4");
+            todo.addToDo("5");
+            todo.addToDo("6");
+            todo.addToDo("7");
+            todo.addToDo("8");
+            todo.addToDo("9");
+            todo.addToDo("10");
+            todo.addToDo("11");
+            fail("Over max todo list size");
+        } catch (TooManyToDosException e) {
+
+        }
+    }
+
+    @Test
     public void testRemovedToDo() throws EmptyNormalToDoListException, EmptyUrgentToDoListException {
-        todo.addToDo("Testing todo");
-        todo.addToDo("Another testing todo");
+        try {
+            todo.addToDo("Testing todo");
+            todo.addToDo("Another testing todo");
+        } catch (TooManyToDosException e) {
+            fail("No exceptions thrown");
+        }
         ArrayList<ToDo> todoList = todo.getToDoList();
         assertEquals(2, todoList.size());
         assertEquals("Testing todo", todoList.get(0).getToDoName());
@@ -96,8 +129,12 @@ public class ToDoListTest {
     public void testGetToDoList() {
         ArrayList<ToDo> todoList = todo.getToDoList();
         assertEquals(0, todoList.size());
-        todo.addToDo("CPSC");
-        todo.addToDo("MATH");
+        try {
+            todo.addToDo("CPSC");
+            todo.addToDo("MATH");
+        } catch (TooManyToDosException e) {
+            fail("Not over max size");
+        }
         assertEquals(2, todoList.size());
         assertEquals("CPSC", todoList.get(0).getToDoName());
         assertEquals("MATH", todoList.get(1).getToDoName());

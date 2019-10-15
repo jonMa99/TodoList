@@ -2,6 +2,7 @@ package model;
 
 import exception.EmptyNormalToDoListException;
 import exception.EmptyUrgentToDoListException;
+import exception.TooManyToDosException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +18,10 @@ public class UrgentToDo extends ToDoList {
     @Override
     // MODIFIES: this
     // EFFECT: adds urgenttodo into the urgenttoDoList
-    public void addToDo(String todo) {
+    public void addToDo(String todo) throws TooManyToDosException {
+        if (urgenttoDoList.size() >= MAXTODOLISTSIZE) {
+            throw new TooManyToDosException();
+        }
         urgenttoDoList.add(new ToDo(todo));
     }
 

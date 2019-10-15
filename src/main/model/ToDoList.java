@@ -2,6 +2,7 @@ package model;
 
 import exception.EmptyNormalToDoListException;
 import exception.EmptyUrgentToDoListException;
+import exception.TooManyToDosException;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ToDoList implements Saveable, Loadable {
+    public static final int MAXTODOLISTSIZE = 10;
+
     protected ArrayList<ToDo> normalToDoList;
     protected ArrayList<ToDo> urgenttoDoList;
     protected ArrayList<ToDo> removedToDoList;
@@ -27,7 +30,7 @@ public abstract class ToDoList implements Saveable, Loadable {
 
     // MODIFIES: this
     // EFFECT: adds todo into the toDoList
-    public abstract void addToDo(String todo);
+    public abstract void addToDo(String todo) throws TooManyToDosException;
 //    public void addToDo(String todo) {
 //        if (typeoflist.equals("normal")) {
 //            normalToDoList.add(new ToDo(todo));

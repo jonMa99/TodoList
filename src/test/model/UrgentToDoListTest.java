@@ -2,6 +2,7 @@ package model;
 
 import exception.EmptyNormalToDoListException;
 import exception.EmptyUrgentToDoListException;
+import exception.TooManyToDosException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,11 @@ public class UrgentToDoListTest {
 
     @Test
     public void testAddToDo() {
-        urgenttodo.addToDo("CPSC-210");
+        try {
+            urgenttodo.addToDo("CPSC-210");
+        } catch (TooManyToDosException e) {
+            fail("No exceptions thrown");
+        }
         ArrayList<ToDo> toDoList = urgenttodo.getToDoList();
         assertEquals(1, toDoList.size());
         assertEquals("CPSC-210", toDoList.get(0).getToDoName());
@@ -36,14 +41,38 @@ public class UrgentToDoListTest {
 
     @Test
     public void testAddToDoLots() {
-        urgenttodo.addToDo("CPSC-210");
-        urgenttodo.addToDo("MATH-221");
-        urgenttodo.addToDo("MATH-200");
+        try {
+            urgenttodo.addToDo("CPSC-210");
+            urgenttodo.addToDo("MATH-221");
+            urgenttodo.addToDo("MATH-200");
+        } catch (TooManyToDosException e) {
+            fail("No exceptions thrown");
+        }
         ArrayList<ToDo> toDoList = urgenttodo.getToDoList();
         assertEquals(3, toDoList.size());
         assertEquals("CPSC-210", toDoList.get(0).getToDoName());
         assertEquals("MATH-221", toDoList.get(1).getToDoName());
         assertEquals("MATH-200", toDoList.get(2).getToDoName());
+    }
+
+    @Test
+    public void testAddTooManyUrgentToDo() {
+        try {
+            urgenttodo.addToDo("1");
+            urgenttodo.addToDo("2");
+            urgenttodo.addToDo("3");
+            urgenttodo.addToDo("4");
+            urgenttodo.addToDo("5");
+            urgenttodo.addToDo("6");
+            urgenttodo.addToDo("7");
+            urgenttodo.addToDo("8");
+            urgenttodo.addToDo("9");
+            urgenttodo.addToDo("10");
+            urgenttodo.addToDo("11");
+            fail("Too many todos!");
+        } catch (TooManyToDosException e) {
+
+        }
     }
 
     @Test
@@ -70,8 +99,12 @@ public class UrgentToDoListTest {
     public void testGetToDoList() {
         ArrayList<ToDo> todoList = urgenttodo.getToDoList();
         assertEquals(0, todoList.size());
-        urgenttodo.addToDo("CPSC");
-        urgenttodo.addToDo("MATH");
+        try {
+            urgenttodo.addToDo("CPSC");
+            urgenttodo.addToDo("MATH");
+        } catch (TooManyToDosException e) {
+            fail("No exceptions thrown");
+        }
         assertEquals(2, todoList.size());
         assertEquals("CPSC", todoList.get(0).getToDoName());
         assertEquals("MATH", todoList.get(1).getToDoName());
@@ -79,8 +112,12 @@ public class UrgentToDoListTest {
 
     @Test
     public void testRemovedToDo() throws EmptyNormalToDoListException, EmptyUrgentToDoListException {
-        urgenttodo.addToDo("Testing todo");
-        urgenttodo.addToDo("Another testing todo");
+        try {
+            urgenttodo.addToDo("Testing todo");
+            urgenttodo.addToDo("Another testing todo");
+        } catch (TooManyToDosException e) {
+            fail("No exceptions thrown");
+        }
         ArrayList<ToDo> todoList = urgenttodo.getToDoList();
         assertEquals(2, todoList.size());
         assertEquals("Testing todo", todoList.get(0).getToDoName());
