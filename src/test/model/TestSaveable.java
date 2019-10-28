@@ -1,7 +1,6 @@
 package model;
 
 import exception.TooManyToDosException;
-import model.NormalToDo;
 import model.Saveable;
 import model.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,12 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestSaveable {
     private ToDoList todo;
-    private ToDoList urgent;
 
     @BeforeEach
     public void setUp() throws IOException {
-        todo = new NormalToDo();
-        urgent = new UrgentToDo();
+        todo = new ToDoList();
     }
 
     @Test
@@ -33,11 +30,11 @@ public class TestSaveable {
         todo.addToDo("CPSC");
         todo.addToDo("MATH");
         todo.addToDo("PSYC");
-        FileWriter urgentsave = new FileWriter("./data/testurgentoutput.txt");
-        urgentsave.close();
-        urgent.addToDo("123");
-        urgent.addToDo("456");
-        urgent.addToDo("789");
+//        FileWriter urgentsave = new FileWriter("./data/testurgentoutput.txt");
+//        urgentsave.close();
+//        urgent.addToDo("123");
+//        urgent.addToDo("456");
+//        urgent.addToDo("789");
         testSave(todo);
 //        FileWriter removed = new FileWriter("./data/testoutputremoved.txt");
 //        removed.close();

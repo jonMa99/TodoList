@@ -10,13 +10,12 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class UserPrompts {
-    private model.ToDoList normaltoDoList;
+    private model.ToDoList toDoList;
     private model.ToDoList urgenttoDoList;
     private Scanner scanner;                 //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
     public UserPrompts() throws IOException {
-        normaltoDoList = new model.NormalToDo();
-        urgenttoDoList = new model.UrgentToDo();
+        toDoList = new ToDoList();
         scanner = new Scanner(System.in);
         whatToDo();
     }
@@ -27,14 +26,16 @@ public class UserPrompts {
         while (true) {
             printOutMenu();
             int command = scanner.nextInt();      //CPSC 210 B04-SimpleCalculatorSolutionLecLab
-            if (command == 6) {
-                saveToDoList(normaltoDoList);
+            if (command == 5) {
+                saveToDoList(toDoList);
                 break;
             }
             try {
                 checkCommand(command);
             } catch (WrongCommandInputException e) {
-                System.out.println("Sorry, can you type a number 1 - 6");
+                System.out.println("Sorry, can you type a number 1 - 5");
+            } catch (TooManyToDosException e) {
+                System.out.println("Sorry you have too many todos. Can you remove some before adding a new one?");
             } finally {
                 System.out.println("Thanks for using our todo list! \n");
             }
@@ -52,82 +53,76 @@ public class UserPrompts {
         System.out.println("1: Add something to your todo list");
         System.out.println("2: Add something to your urgent todo list");
         System.out.println("3: Delete a todo");
-        System.out.println("4: Delete an urgenttodo");
-        System.out.println("5: Show todos and urgent todos");
-        System.out.println("6: Quit the program");
+        System.out.println("4: Show todos and urgent todos");
+        System.out.println("5: Quit the program");
         System.out.println("");
     }
 
 
     // MODIFIES: todo.addToDo, todo.removeToDo
     // EFFECT: takes user input and advances program based on user input
-    public void checkCommand(int command) throws WrongCommandInputException {
+    public void checkCommand(int command) throws WrongCommandInputException, TooManyToDosException {
         if (command < 1 || command > 6) {
             throw new WrongCommandInputException();
         }
         if (command == 1) {
-            addToDo(normaltoDoList, "Sorry you have too many normal todos."
-                    + " Can you remove some before adding a new one?");
+            addToDo();
         } else if (command == 2) {
-            addToDo(urgenttoDoList, "Sorry you have too many urgent todos."
-                    + " Can you remove some before adding a new one?");
+            addUrgentToDo();
         } else if (command == 3) {
             askremoveToDo();
-        } else if (command == 4) {
-            askremoveUrgentToDo();
         } else {
-            printBothToDos();
+            toDoList.printToDoList();
         }
     }
 
-    private void addToDo(ToDoList todoList, String s) {
-        try {
-            addToDo(todoList);
-        } catch (TooManyToDosException e) {
-            System.out.println(s);
-        }
-    }
+//    private void addToDo(String s) {
+//        try {
+//            toDoList.addToDo();
+//        } catch (TooManyToDosException e) {
+//            System.out.println(s);
+//        }
+//    }
 
-    private void addToDo(ToDoList normaltoDoList) throws TooManyToDosException {
+    private void addToDo() throws TooManyToDosException {
         String todo1 = repeatToDo();
         System.out.println("You have typed: " + todo1);
-        normaltoDoList.addToDo(todo1);
+        toDoList.addToDo(todo1);
     }
 
-    private void printBothToDos() {
-        normaltoDoList.printToDoList();
-        urgenttoDoList.printToDoList();
+    private void addUrgentToDo() throws TooManyToDosException {
+        String todo1 = repeatToDo();
+        System.out.println("You have typed: " + todo1);
+        toDoList.addUrgentToDo(todo1);
     }
 
     // MODIFIES: removeToDo
     // EFFECT: asks user what todo they want to remove
     public void askremoveToDo() {
         System.out.println("Which ToDo would you like to remove?");
-        normaltoDoList.printToDoList();
+        toDoList.printToDoList();
         int removeNum = scanner.nextInt();
         try {
-            normaltoDoList.removeToDo(removeNum);
+            toDoList.removeToDo(removeNum);
         } catch (EmptyNormalToDoListException e) {
             System.out.println("The NormalToDoList is empty. You have nothing to remove!");
-        } catch (EmptyUrgentToDoListException e) {
-            // Should not be called
         }
     }
 
-    // MODIFIES: removeToDo
-    // EFFECT: asks user what urgenttodo they want to remove
-    public void askremoveUrgentToDo() {
-        System.out.println("Which Urgent ToDo would you like to remove?");
-        urgenttoDoList.printToDoList();
-        int removeNum = scanner.nextInt();
-        try {
-            urgenttoDoList.removeToDo(removeNum);
-        } catch (EmptyUrgentToDoListException e) {
-            System.out.println("The UrgentToDoList is empty. You have nothing to remove!");
-        } catch (EmptyNormalToDoListException e) {
-            // Should not be called
-        }
-    }
+//    // MODIFIES: removeToDo
+//    // EFFECT: asks user what urgenttodo they want to remove
+//    public void askremoveUrgentToDo() {
+//        System.out.println("Which Urgent ToDo would you like to remove?");
+//        urgenttoDoList.printToDoList();
+//        int removeNum = scanner.nextInt();
+//        try {
+//            urgenttoDoList.removeToDo(removeNum);
+//        } catch (EmptyUrgentToDoListException e) {
+//            System.out.println("The UrgentToDoList is empty. You have nothing to remove!");
+//        } catch (EmptyNormalToDoListException e) {
+//            // Should not be called
+//        }
+//    }
 
 //    // todo try to refactor this
 //    //EFFECT: prints a list of todos

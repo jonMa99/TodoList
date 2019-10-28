@@ -16,7 +16,7 @@ public class ToDoListTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        todo = new NormalToDo();
+        todo = new ToDoList();
     }
 
     @Test
@@ -99,8 +99,6 @@ public class ToDoListTest {
             fail("Should throw EmptyNormalToDoListException");
         } catch (EmptyNormalToDoListException e) {
 
-        } catch (EmptyUrgentToDoListException e) {
-            fail("Wrong type of exception thrown");
         }
     }
 
@@ -111,10 +109,10 @@ public class ToDoListTest {
         ArrayList<ToDo> removedToDoList = todo.getRemovedToDoList();
         assertEquals(0, todoList.size());
         assertEquals(0, removedToDoList.size());
-        todoList.add(new ToDo("CPSC"));
-        todoList.add(new ToDo("MATH"));
-        todoList.add(new ToDo("ENGL"));
-        todoList.add(new ToDo("PSYC"));
+        todoList.add(new NormalItem("CPSC"));
+        todoList.add(new NormalItem("MATH"));
+        todoList.add(new NormalItem("ENGL"));
+        todoList.add(new NormalItem("PSYC"));
         assertEquals(4, todoList.size());
         assertTrue(searchThroughListForName(todoList, "ENGL"));
         assertEquals(0, removedToDoList.size());
@@ -144,8 +142,8 @@ public class ToDoListTest {
     public void testGetRemovedToDoList() {
         ArrayList<ToDo> removedToDoList = todo.getRemovedToDoList();
         assertEquals(0, removedToDoList.size());
-        removedToDoList.add(new ToDo("CPSC"));
-        removedToDoList.add(new ToDo("MATH"));
+        removedToDoList.add(new NormalItem("CPSC"));
+        removedToDoList.add(new NormalItem("MATH"));
         assertEquals(2, removedToDoList.size());
         assertEquals("CPSC", removedToDoList.get(0).getToDoName());
         assertEquals("MATH", removedToDoList.get(1).getToDoName());
