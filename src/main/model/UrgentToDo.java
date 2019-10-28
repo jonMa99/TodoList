@@ -22,7 +22,7 @@ public class UrgentToDo extends ToDoList {
         if (urgenttoDoList.size() >= MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
         }
-        urgenttoDoList.add(new ToDo(todo));
+        urgenttoDoList.add(new UrgentItem(todo));
     }
 
     @Override

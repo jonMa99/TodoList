@@ -1,6 +1,6 @@
 package model;
 
-public class ToDo {
+public abstract class ToDo {
     private String todoName;
 
     // EFFECT: constructs a todo with s as todoName

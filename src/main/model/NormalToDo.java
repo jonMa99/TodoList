@@ -21,7 +21,7 @@ public class NormalToDo extends ToDoList {
         if (normalToDoList.size() >= MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
         }
-        normalToDoList.add(new ToDo(todo));
+        normalToDoList.add(new NormalItem(todo));
     }
 
     @Override

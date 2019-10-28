@@ -86,15 +86,15 @@ public abstract class ToDoList implements Saveable, Loadable {
     public void load(String toDo, String urgenttoDo, String removeList) throws IOException {
         List<String> todos = Files.readAllLines(Paths.get(toDo));   // CPSC 210 FileReaderWriter
         for (String s : todos) {
-            normalToDoList.add(new ToDo(s));
+            normalToDoList.add(new NormalItem(s));
         }
         List<String> urgents = Files.readAllLines(Paths.get(urgenttoDo));   // CPSC 210 FileReaderWriter
         for (String s : urgents) {
-            urgenttoDoList.add(new ToDo(s));
+            urgenttoDoList.add(new UrgentItem(s));
         }
         List<String> removes = Files.readAllLines(Paths.get(removeList));   // CPSC 210 FileReaderWriter
         for (String s : removes) {
-            removedToDoList.add(new ToDo(s));
+            removedToDoList.add(new NormalItem(s));
         }
         printToDoList();
     }
