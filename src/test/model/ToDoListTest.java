@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,7 +72,7 @@ public class ToDoListTest {
             todo.addToDo("11");
             fail("Over max todo list size");
         } catch (TooManyToDosException e) {
-
+            assertEquals(todo.MAXTODOLISTSIZE, todo.getToDoList().size());
         }
     }
 
@@ -101,7 +102,6 @@ public class ToDoListTest {
 
         }
     }
-
 
         @Test
     public void testMoveToDoToRemovedToDo() {
@@ -147,6 +147,120 @@ public class ToDoListTest {
         assertEquals(2, removedToDoList.size());
         assertEquals("CPSC", removedToDoList.get(0).getToDoName());
         assertEquals("MATH", removedToDoList.get(1).getToDoName());
+    }
+    
+    @Test
+    public void testAddTo2Param() {
+        try {
+            todo.addToDo("Test", "Here");
+        } catch (TooManyToDosException e) {
+            fail("Not supposed to be thrown");
+        }
+    }
+
+    @Test
+    public void testAddOverMaxToDo2Param() {
+        try {
+            todo.addToDo("1", "1");
+            todo.addToDo("2", "1");
+            todo.addToDo("3", "1");
+            todo.addToDo("4", "1");
+            todo.addToDo("5", "1");
+            todo.addToDo("6", "1");
+            todo.addToDo("7", "1");
+            todo.addToDo("8", "1");
+            todo.addToDo("9", "1");
+            todo.addToDo("10", "1");
+            todo.addToDo("11", "1");
+            fail("Over max todo list size");
+        } catch (TooManyToDosException e) {
+            assertEquals(todo.MAXTODOLISTSIZE, todo.getToDoList().size());
+        }
+    }
+
+    @Test
+    public void testAddUrgentToDo() {
+        try {
+            todo.addUrgentToDo("Test");
+            assertEquals(1, todo.getToDoList().size());
+            assertEquals("!!!!! Test !!!!!", todo.getToDoList().get(0).getToDoName());
+            assertEquals("Nowhere", todo.getToDoList().get(0).getLocation().getLocationName());
+        } catch (TooManyToDosException e) {
+            fail("Not suppose to throw");
+        }
+    }
+
+    @Test
+    public void testAddUrgentToDo2Param() {
+        try {
+            todo.addUrgentToDo("Tester", "Library");
+            assertEquals(1, todo.getToDoList().size());
+            assertEquals("!!!!! Tester !!!!!", todo.getToDoList().get(0).getToDoName());
+            assertEquals("Library", todo.getToDoList().get(0).getLocation().getLocationName());
+        } catch (TooManyToDosException e) {
+            fail("Not suppose to be thrown");
+        }
+    }
+
+    @Test
+    public void testAddOverMaxUrgentToDo() {
+        try {
+            todo.addUrgentToDo("1");
+            todo.addUrgentToDo("2");
+            todo.addUrgentToDo("3");
+            todo.addUrgentToDo("4");
+            todo.addUrgentToDo("5");
+            todo.addUrgentToDo("6");
+            todo.addUrgentToDo("7");
+            todo.addUrgentToDo("8");
+            todo.addUrgentToDo("9");
+            todo.addUrgentToDo("10");
+            todo.addUrgentToDo("11");
+            fail("Over max todo list size");
+        } catch (TooManyToDosException e) {
+            assertEquals(todo.MAXTODOLISTSIZE, todo.getToDoList().size());
+        }
+    }
+
+    @Test
+    public void testAddOverMaxUrgentToDo2Param() {
+        try {
+            todo.addUrgentToDo("1", "1");
+            todo.addUrgentToDo("2", "1");
+            todo.addUrgentToDo("3", "1");
+            todo.addUrgentToDo("4", "1");
+            todo.addUrgentToDo("5", "1");
+            todo.addUrgentToDo("6", "1");
+            todo.addUrgentToDo("7", "1");
+            todo.addUrgentToDo("8", "1");
+            todo.addUrgentToDo("9", "1");
+            todo.addUrgentToDo("10", "1");
+            todo.addUrgentToDo("11", "1");
+            fail("Over max todo list size");
+        } catch (TooManyToDosException e) {
+            assertEquals(todo.MAXTODOLISTSIZE, todo.getToDoList().size());
+        }
+    }
+
+    @Test
+    public void testGetKeysAndMakeList() {
+        try {
+            todo.addToDo("1", "1");
+            todo.addToDo("2", "1");
+            todo.addToDo("3", "2");
+            todo.addToDo("4", "3");
+            Set<Location> keylist = todo.getKeysAndMakeList();
+            assertEquals(3, keylist.size());
+            ArrayList<String> list = new ArrayList<>();
+            for (Location l : keylist) {
+                list.add(l.getLocationName());
+            }
+            assertTrue(list.contains("1"));
+            assertTrue(list.contains("2"));
+            assertTrue(list.contains("3"));
+        } catch (TooManyToDosException e) {
+            fail("Not suppose to be thrown");
+        }
     }
 
     public boolean searchThroughListForName(ArrayList<ToDo> todolist, String s) {
