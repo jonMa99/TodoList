@@ -36,6 +36,13 @@ public class ToDo {
         }
     }
 
+    public void removeLocation() {
+        if (!todoName.equals("Nowhere")) {
+            location = new Location("Nowhere");
+            location.removeToDo(this);
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

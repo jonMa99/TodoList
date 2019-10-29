@@ -32,6 +32,13 @@ public class Location {
         }
     }
 
+    public void removeToDo(ToDo td) {
+        if (todos.contains(td)) {
+            todos.remove(td);
+            td.removeLocation();
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
