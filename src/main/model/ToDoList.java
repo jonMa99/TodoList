@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ToDoList implements Saveable, Loadable {
@@ -15,6 +16,7 @@ public class ToDoList implements Saveable, Loadable {
 
     protected ArrayList<ToDo> toDoList;
     protected ArrayList<ToDo> removedToDoList;
+    protected HashMap<Location, ArrayList<ToDo>> search;
 
     // EFFECT: Creates new ToDo
     public ToDoList() throws IOException {
@@ -28,17 +30,39 @@ public class ToDoList implements Saveable, Loadable {
     // EFFECT: adds todo into the toDoList
     public void addToDo(String todo) throws TooManyToDosException {
         if (toDoList.size() >= MAXTODOLISTSIZE) {
-            toDoList.add(new NormalItem(todo));
+            throw new TooManyToDosException();
         }
+        toDoList.add(new NormalItem(todo));
     }
 
     // MODIFIES: this
-    // EFFECT: adds todo into the toDoList
+    // EFFECT: adds todo with location into the toDoList
+    public void addToDo(String todo, String location) throws TooManyToDosException {
+        if (toDoList.size() >= MAXTODOLISTSIZE) {
+            throw new TooManyToDosException();
+        }
+        toDoList.add(new NormalItem(todo, location));
+    }
+
+
+    // MODIFIES: this
+    // EFFECT: adds urgenttodo into the toDoList
     public void addUrgentToDo(String todo) throws TooManyToDosException {
         if (toDoList.size() >= MAXTODOLISTSIZE) {
-            toDoList.add(new UrgentItem(todo));
+            throw new TooManyToDosException();
         }
+        toDoList.add(new UrgentItem(todo));
     }
+
+    // MODIFIES: this
+    // EFFECT: adds urgenttodo with location into the toDoList
+    public void addUrgentToDo(String todo, String location) throws TooManyToDosException {
+        if (toDoList.size() >= MAXTODOLISTSIZE) {
+            throw new TooManyToDosException();
+        }
+        toDoList.add(new UrgentItem(todo, location));
+    }
+
 
     // MODIFIES: this
     // EFFECT: removes specified normaltodo and moves it to removedToDo
@@ -63,7 +87,8 @@ public class ToDoList implements Saveable, Loadable {
     public void printToDoList() {
         System.out.println("Current ToDos");
         for (int i = 1; i <= toDoList.size(); i++) {
-            System.out.println(i + " : " + (toDoList.get(i - 1).getToDoName()));
+            System.out.println(i + " : " + (toDoList.get(i - 1).getToDoName())
+                    + " --- " + toDoList.get(i - 1).getLocation().getLocationName());
         }
         System.out.println("");
     }
@@ -116,6 +141,16 @@ public class ToDoList implements Saveable, Loadable {
             remove.write(rtd.getToDoName() + "\n");
         }
         remove.close();
+    }
+
+    public HashMap<Location, ArrayList<ToDo>> makeHashMap() {
+        search = new HashMap<>();
+        for (ToDo t : toDoList) {
+            search.put(t.getLocation(), new ArrayList<ToDo>());
+            ArrayList<ToDo> locationtodo = search.get(t.getLocation());
+            locationtodo.add(t);
+        }
+        return search;
     }
 }
 

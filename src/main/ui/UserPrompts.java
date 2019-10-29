@@ -4,14 +4,17 @@ import exception.EmptyNormalToDoListException;
 import exception.EmptyUrgentToDoListException;
 import exception.TooManyToDosException;
 import exception.WrongCommandInputException;
+import model.Location;
+import model.ToDo;
 import model.ToDoList;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class UserPrompts {
     private model.ToDoList toDoList;
-    private model.ToDoList urgenttoDoList;
     private Scanner scanner;                 //CPSC 210 B04-SimpleCalculatorSolutionLecLab
 
     public UserPrompts() throws IOException {
@@ -26,14 +29,14 @@ public class UserPrompts {
         while (true) {
             printOutMenu();
             int command = scanner.nextInt();      //CPSC 210 B04-SimpleCalculatorSolutionLecLab
-            if (command == 5) {
+            if (command == 6) {
                 saveToDoList(toDoList);
                 break;
             }
             try {
                 checkCommand(command);
             } catch (WrongCommandInputException e) {
-                System.out.println("Sorry, can you type a number 1 - 5");
+                System.out.println("Sorry, can you type a number 1 - 6");
             } catch (TooManyToDosException e) {
                 System.out.println("Sorry you have too many todos. Can you remove some before adding a new one?");
             } finally {
@@ -50,11 +53,12 @@ public class UserPrompts {
 
     private void printOutMenu() {
         System.out.println("What would you like to do?");
-        System.out.println("1: Add something to your todo list");
-        System.out.println("2: Add something to your urgent todo list");
+        System.out.println("1: Add a todo");
+        System.out.println("2: Add a urgent todo");
         System.out.println("3: Delete a todo");
         System.out.println("4: Show todos and urgent todos");
-        System.out.println("5: Quit the program");
+        System.out.println("5: Search todos by location");
+        System.out.println("6: Quit the program");
         System.out.println("");
     }
 
@@ -71,6 +75,8 @@ public class UserPrompts {
             addUrgentToDo();
         } else if (command == 3) {
             askremoveToDo();
+        } else if (command == 5) {
+            searchByLocation();
         } else {
             toDoList.printToDoList();
         }
@@ -87,13 +93,25 @@ public class UserPrompts {
     private void addToDo() throws TooManyToDosException {
         String todo1 = repeatToDo();
         System.out.println("You have typed: " + todo1);
-        toDoList.addToDo(todo1);
+        System.out.println("Location (default is Nowhere)");
+        String location = scanner.nextLine();
+        if (location.equals("")) {
+            toDoList.addToDo(todo1);
+        } else {
+            toDoList.addToDo(todo1, location);
+        }
     }
 
     private void addUrgentToDo() throws TooManyToDosException {
         String todo1 = repeatToDo();
         System.out.println("You have typed: " + todo1);
-        toDoList.addUrgentToDo(todo1);
+        System.out.println("Location (default is Nowhere)");
+        String location = scanner.nextLine();
+        if (location.equals("")) {
+            toDoList.addUrgentToDo(todo1);
+        } else {
+            toDoList.addUrgentToDo(todo1, location);
+        }
     }
 
     // MODIFIES: removeToDo
@@ -124,22 +142,6 @@ public class UserPrompts {
 //        }
 //    }
 
-//    // todo try to refactor this
-//    //EFFECT: prints a list of todos
-//    public void printToDoList() {
-//        System.out.println("Current ToDos");
-//        for (int i = 1; i <= toDoList.getToDoList().size(); i++) {
-//            System.out.println(i + " : " + (toDoList.getToDoList().get(i - 1).getToDoName()));
-//        }
-//        System.out.println("");
-//        System.out.println("Current Urgent ToDos");
-//        System.out.println("!!!!!");s
-//        for (int i = 1; i <= urgenttoDoList.getToDoList().size(); i++) {
-//            System.out.println(i + " : " + (urgenttoDoList.getToDoList().get(i - 1).getToDoName()));
-//        }
-//        System.out.println("!!!!!");
-//        System.out.println("");
-//    }
 
     // EFFECT: returns what the user typed
     public String repeatToDo() {
@@ -147,5 +149,19 @@ public class UserPrompts {
         System.out.println("Enter the ToDo:");
         String todo = scanner.nextLine();        //CPSC 210 B04-SimpleCalculatorSolutionLecLab
         return todo;
+    }
+
+    public void searchByLocation() {
+        HashMap<Location, ArrayList<ToDo>> hashmap = toDoList.makeHashMap();
+        scanner = new Scanner(System.in);
+        System.out.println("What location are you looking for?");
+        String location = scanner.nextLine();
+        ArrayList<ToDo> listtodo = hashmap.get(new Location(location));
+        System.out.println("ToDos at " + location);
+        int i = 1;
+        for (ToDo td : listtodo) {
+            System.out.println(i + ". " + td.getToDoName());
+            i++;
+        }
     }
 }
