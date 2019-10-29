@@ -7,16 +7,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class ToDoList implements Saveable, Loadable {
     public static final int MAXTODOLISTSIZE = 10;
 
     protected ArrayList<ToDo> toDoList;
     protected ArrayList<ToDo> removedToDoList;
-    protected HashMap<Location, ArrayList<ToDo>> search;
 
     // EFFECT: Creates new ToDo
     public ToDoList() throws IOException {
@@ -143,12 +140,30 @@ public class ToDoList implements Saveable, Loadable {
         remove.close();
     }
 
+    // EFFECT: makes set of locations
+    public Set<Location> getKeysAndMakeList() {
+        Set<Location> listOfLocation = new HashSet<Location>();
+        for (ToDo td : toDoList) {
+            listOfLocation.add(td.getLocation());
+        }
+        return listOfLocation;
+    }
+
+    //EFFECT: makes a hashmap using keys and empty ArrayList
+    public HashMap<Location, ArrayList<ToDo>> makeKeyAndEmptyValueHashMap() {
+        HashMap<Location, ArrayList<ToDo>> search = new HashMap<>();
+        for (Location l : getKeysAndMakeList()) {
+            search.put(l, new ArrayList<ToDo>());
+        }
+        return search;
+    }
+
+    // EFFECT: produces hashmap with location as key and ArrayList<ToDo> as values
     public HashMap<Location, ArrayList<ToDo>> makeHashMap() {
-        search = new HashMap<>();
+        HashMap<Location, ArrayList<ToDo>> search = makeKeyAndEmptyValueHashMap();
         for (ToDo t : toDoList) {
-            search.put(t.getLocation(), new ArrayList<ToDo>());
-            ArrayList<ToDo> locationtodo = search.get(t.getLocation());
-            locationtodo.add(t);
+            ArrayList<ToDo> list = search.get(t.getLocation());
+            list.add(t);
         }
         return search;
     }
