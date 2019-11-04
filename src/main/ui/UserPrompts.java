@@ -1,7 +1,6 @@
 package ui;
 
 import exception.EmptyNormalToDoListException;
-import exception.EmptyUrgentToDoListException;
 import exception.TooManyToDosException;
 import exception.WrongCommandInputException;
 import model.Location;
@@ -91,10 +90,8 @@ public class UserPrompts {
 //    }
 
     private void addToDo() throws TooManyToDosException {
-        String todo1 = repeatToDo();
-        System.out.println("You have typed: " + todo1);
-        System.out.println("Location (default is Nowhere)");
-        String location = scanner.nextLine();
+        String todo1 = printToDo();
+        String location = askLocation();
         if (location.equals("")) {
             toDoList.addToDo(todo1);
         } else {
@@ -102,16 +99,26 @@ public class UserPrompts {
         }
     }
 
+
     private void addUrgentToDo() throws TooManyToDosException {
-        String todo1 = repeatToDo();
-        System.out.println("You have typed: " + todo1);
-        System.out.println("Location (default is Nowhere)");
-        String location = scanner.nextLine();
+        String todo1 = printToDo();
+        String location = askLocation();
         if (location.equals("")) {
             toDoList.addUrgentToDo(todo1);
         } else {
             toDoList.addUrgentToDo(todo1, location);
         }
+    }
+
+    private String askLocation() {
+        System.out.println("Location (default is Nowhere)");
+        return scanner.nextLine();
+    }
+
+    private String printToDo() {
+        String todo1 = repeatToDo();
+        System.out.println("You have typed: " + todo1);
+        return todo1;
     }
 
     // MODIFIES: removeToDo
@@ -152,7 +159,7 @@ public class UserPrompts {
     }
 
     public void searchByLocation() {
-        HashMap<Location, ArrayList<ToDo>> hashmap = toDoList.makeHashMap();
+        HashMap<Location, ArrayList<ToDo>> hashmap = toDoList.fillHashMap();
         scanner = new Scanner(System.in);
         System.out.println("What location are you looking for?");
         String location = scanner.nextLine();

@@ -14,11 +14,13 @@ public class ToDoList implements Saveable, Loadable {
 
     protected ArrayList<ToDo> toDoList;
     protected ArrayList<ToDo> removedToDoList;
+    private Search search;
 
     // EFFECT: Creates new ToDo
     public ToDoList() throws IOException {
         toDoList = new ArrayList<ToDo>();
         removedToDoList = new ArrayList<>();
+        search = new Search();
         load("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
                 "./data/removeToDoListoutput.txt");
     }
@@ -64,7 +66,7 @@ public class ToDoList implements Saveable, Loadable {
     // MODIFIES: this
     // EFFECT: removes specified normaltodo and moves it to removedToDo
     public void removeToDo(int removeNum) throws EmptyNormalToDoListException {
-        if (toDoList.size() == 0) {
+        if (toDoList.size() <= 0) {
             throw new EmptyNormalToDoListException();
         }
         System.out.println("You have removed: " + toDoList.get(removeNum - 1).getToDoName());
@@ -80,15 +82,6 @@ public class ToDoList implements Saveable, Loadable {
         removedToDoList.add(moveToRemove);
     }
 
-    //EFFECT: prints a list of normaltodos
-    public void printToDoList() {
-        System.out.println("Current ToDos");
-        for (int i = 1; i <= toDoList.size(); i++) {
-            System.out.println(i + " : " + (toDoList.get(i - 1).getToDoName())
-                    + " --- " + toDoList.get(i - 1).getLocation().getLocationName());
-        }
-        System.out.println("");
-    }
 
     // EFFECT: returns normaltoDoList
     public ArrayList<ToDo> getToDoList() {
@@ -140,32 +133,29 @@ public class ToDoList implements Saveable, Loadable {
         remove.close();
     }
 
+    //EFFECT: prints a list of normaltodos
+    public void printToDoList() {
+        System.out.println("Current ToDos");
+        for (int i = 1; i <= toDoList.size(); i++) {
+            System.out.println(i + " : " + (toDoList.get(i - 1).getToDoName())
+                    + " --- " + toDoList.get(i - 1).getLocation().getLocationName());
+        }
+        System.out.println("");
+    }
+
     // EFFECT: makes set of locations
     public Set<Location> getKeysAndMakeList() {
-        Set<Location> listOfLocation = new HashSet<Location>();
-        for (ToDo td : toDoList) {
-            listOfLocation.add(td.getLocation());
-        }
-        return listOfLocation;
+        return search.getKeysAndMakeList(this);
     }
 
     //EFFECT: makes a hashmap using keys and empty ArrayList
     public HashMap<Location, ArrayList<ToDo>> makeKeyAndEmptyValueHashMap() {
-        HashMap<Location, ArrayList<ToDo>> search = new HashMap<>();
-        for (Location l : getKeysAndMakeList()) {
-            search.put(l, new ArrayList<ToDo>());
-        }
-        return search;
+        return search.makeKeyAndEmptyValueHashMap(this);
     }
 
     // EFFECT: produces hashmap with location as key and ArrayList<ToDo> as values
-    public HashMap<Location, ArrayList<ToDo>> makeHashMap() {
-        HashMap<Location, ArrayList<ToDo>> search = makeKeyAndEmptyValueHashMap();
-        for (ToDo t : toDoList) {
-            ArrayList<ToDo> list = search.get(t.getLocation());
-            list.add(t);
-        }
-        return search;
+    public HashMap<Location, ArrayList<ToDo>> fillHashMap() {
+        return search.fillHashMap(this);
     }
 }
 

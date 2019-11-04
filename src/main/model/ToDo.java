@@ -6,12 +6,13 @@ public class ToDo {
     private String todoName;
     private Location location;
 
-    // EFFECT: constructs a todo with s as todoName and null location
+    // EFFECT: constructs a todo with s as todoName and Nowhere location
     public ToDo(String s) {
         todoName = s;
         location = new Location("Nowhere");
     }
 
+    // EFFECT: constructs a todo with s as todoName and l as location
     public ToDo(String s, String l) {
         todoName = s;
         location = new Location(l);
