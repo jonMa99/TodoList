@@ -6,6 +6,7 @@ import exception.WrongCommandInputException;
 import model.Location;
 import model.ToDo;
 import model.ToDoList;
+import network.ReadWeather;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,10 +16,12 @@ import java.util.Scanner;
 public class UserPrompts {
     private model.ToDoList toDoList;
     private Scanner scanner;                 //CPSC 210 B04-SimpleCalculatorSolutionLecLab
+    private ReadWeather readWeather;
 
     public UserPrompts() throws IOException {
         toDoList = new ToDoList();
         scanner = new Scanner(System.in);
+        readWeather = new ReadWeather();
         whatToDo();
     }
 
