@@ -27,7 +27,7 @@ public class ToDoList extends Subject implements Saveable, Loadable {
     }
 
     // MODIFIES: this
-    // EFFECT: adds todo into the toDoList
+    // EFFECT: adds todo into the toDoList and prints update
     public void addToDo(String todo) throws TooManyToDosException {
         if (toDoList.size() >= MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
@@ -38,7 +38,7 @@ public class ToDoList extends Subject implements Saveable, Loadable {
     }
 
     // MODIFIES: this
-    // EFFECT: adds todo with location into the toDoList
+    // EFFECT: adds todo with location into the toDoList and prints update
     public void addToDo(String todo, String location) throws TooManyToDosException {
         if (toDoList.size() >= MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
@@ -50,7 +50,7 @@ public class ToDoList extends Subject implements Saveable, Loadable {
 
 
     // MODIFIES: this
-    // EFFECT: adds urgenttodo into the toDoList
+    // EFFECT: adds urgenttodo into the toDoList and prints update
     public void addUrgentToDo(String todo) throws TooManyToDosException {
         if (toDoList.size() >= MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
@@ -61,7 +61,7 @@ public class ToDoList extends Subject implements Saveable, Loadable {
     }
 
     // MODIFIES: this
-    // EFFECT: adds urgenttodo with location into the toDoList
+    // EFFECT: adds urgenttodo with location into the toDoList and prints update
     public void addUrgentToDo(String todo, String location) throws TooManyToDosException {
         if (toDoList.size() >= MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
@@ -135,11 +135,11 @@ public class ToDoList extends Subject implements Saveable, Loadable {
 //            urgent.write(utd.getToDoName() + "\n");
 //        }
 //        urgent.close();
-        FileWriter remove = new FileWriter(removeList, true);
-        for (ToDo rtd : removedToDoList) {
-            remove.write(rtd.getToDoName() + "\n");
-        }
-        remove.close();
+//        FileWriter remove = new FileWriter(removeList, true);
+//        for (ToDo rtd : removedToDoList) {
+//            remove.write(rtd.getToDoName() + "\n");
+//        }
+//        remove.close();
     }
 
     //EFFECT: prints a list of normaltodos

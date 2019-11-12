@@ -18,7 +18,7 @@ public class TestLoadable {
     }
 
     @Test
-    public void testLoad() throws IOException {
+    public void testLoadToDoList() throws IOException {
         testLoad(toDoList);
         ArrayList<ToDo> toDoList = this.toDoList.getToDoList();
         assertEquals("CPSC 210", toDoList.get(0).getToDoName());

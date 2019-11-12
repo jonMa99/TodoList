@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -262,6 +263,69 @@ public class ToDoListTest {
             fail("Not suppose to be thrown");
         }
     }
+
+    @Test
+    public void testMakeKeyAndEmptyValueHashMapOne() {
+        try {
+            todo.addToDo("1", "Pizza");
+        } catch (TooManyToDosException e) {
+            fail("No exception thrown");
+        }
+        HashMap<Location,ArrayList<ToDo>> testmap = todo.makeKeyAndEmptyValueHashMap();
+        assertEquals(1, testmap.size());
+        assertEquals(null, testmap.get("Pizza"));
+    }
+
+    @Test
+    public void testMakeKeyAndEmptyValueHashMapMany() {
+        try {
+            todo.addToDo("1", "Pizza");
+            todo.addToDo("2", "Subway");
+        } catch (TooManyToDosException e) {
+            fail("No exception thrown");
+        }
+        HashMap<Location,ArrayList<ToDo>> testmap = todo.makeKeyAndEmptyValueHashMap();
+        assertEquals(2, testmap.size());
+        assertEquals(null, testmap.get("Pizza"));
+        assertEquals(null, testmap.get("Subway"));
+    }
+
+    @Test
+    public void testMakeKeyAndEmptyValueHashMapCopy() {
+        try {
+            todo.addToDo("1", "Pizza");
+            todo.addToDo("2", "Pizza");
+        } catch (TooManyToDosException e) {
+            fail("No exception thrown");
+        }
+        HashMap<Location,ArrayList<ToDo>> testmap = todo.makeKeyAndEmptyValueHashMap();
+        assertEquals(1, testmap.size());
+        assertEquals(null, testmap.get("Pizza"));
+    }
+
+//    @Test
+//    public void testfillHashMap() {
+//        try {
+//            todo.addToDo("1", "Pizza");
+//            todo.addToDo("2", "Pizza");
+//            todo.addToDo("3", "Subway");
+//            todo.addToDo("4", "Test");
+//            todo.addToDo("5", "Pizza");
+//        } catch (TooManyToDosException e) {
+//            fail("No exception thrown");
+//        }
+//        HashMap<Location, ArrayList<ToDo>> testmap = todo.fillHashMap();
+//        assertEquals(3, testmap.size());
+//        assertEquals(3, testmap.get("Pizza").size());
+//        assertTrue(testmap.get("Pizza").contains("1"));
+//        assertTrue(testmap.get("Pizza").contains("2"));
+//        assertTrue(testmap.get("Pizza").contains("5"));
+//        assertEquals(1, testmap.get("Subway"));
+//        assertTrue(testmap.get("Subway").contains("3"));
+//        assertEquals(1, testmap.get("Test"));
+//        assertTrue(testmap.get("Test").contains("3"));
+//    }
+
 
     public boolean searchThroughListForName(ArrayList<ToDo> todolist, String s) {
         for (ToDo td : todolist) {
