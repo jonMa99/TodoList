@@ -114,11 +114,11 @@ public class ToDoList extends Subject implements Saveable, Loadable {
 //        for (String s : urgents) {
 //            urgenttoDoList.add(new UrgentItem(s));
 //        }
-        List<String> removes = Files.readAllLines(Paths.get(removeList));   // CPSC 210 FileReaderWriter
-        for (String s : removes) {
-            removedToDoList.add(new NormalItem(s));
-        }
-        printToDoList();
+//        List<String> removes = Files.readAllLines(Paths.get(removeList));   // CPSC 210 FileReaderWriter
+//        for (String s : removes) {
+//            removedToDoList.add(new NormalItem(s));
+//        }
+//        printToDoList();
     }
 
     @Override
