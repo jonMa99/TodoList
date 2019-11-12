@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class ToDoList implements Saveable, Loadable {
+public class ToDoList extends Subject implements Saveable, Loadable {
     public static final int MAXTODOLISTSIZE = 10;
 
     protected ArrayList<ToDo> toDoList;
@@ -21,6 +21,7 @@ public class ToDoList implements Saveable, Loadable {
         toDoList = new ArrayList<ToDo>();
         removedToDoList = new ArrayList<>();
         search = new Search();
+        setObserver(new PrintToDo());
         load("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
                 "./data/removeToDoListoutput.txt");
     }
@@ -31,7 +32,9 @@ public class ToDoList implements Saveable, Loadable {
         if (toDoList.size() >= MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
         }
-        toDoList.add(new NormalItem(todo));
+        ToDo toDo = new NormalItem(todo);
+        toDoList.add(toDo);
+        notifyObserver(toDo);
     }
 
     // MODIFIES: this
@@ -40,7 +43,9 @@ public class ToDoList implements Saveable, Loadable {
         if (toDoList.size() >= MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
         }
-        toDoList.add(new NormalItem(todo, location));
+        ToDo toDo = new NormalItem(todo, location);
+        toDoList.add(toDo);
+        notifyObserver(toDo);
     }
 
 
@@ -50,7 +55,9 @@ public class ToDoList implements Saveable, Loadable {
         if (toDoList.size() >= MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
         }
-        toDoList.add(new UrgentItem(todo));
+        ToDo urgenttoDo = new UrgentItem(todo);
+        toDoList.add(urgenttoDo);
+        notifyObserver(urgenttoDo);
     }
 
     // MODIFIES: this
@@ -59,7 +66,9 @@ public class ToDoList implements Saveable, Loadable {
         if (toDoList.size() >= MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
         }
-        toDoList.add(new UrgentItem(todo, location));
+        ToDo urgenttoDo = new UrgentItem(todo, location);
+        toDoList.add(urgenttoDo);
+        notifyObserver(urgenttoDo);
     }
 
 

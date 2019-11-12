@@ -120,7 +120,7 @@ public class UserPrompts {
 
     private String printToDo() {
         String todo1 = repeatToDo();
-        System.out.println("You have typed: " + todo1);
+//        System.out.println("You have typed: " + todo1);
         return todo1;
     }
 
