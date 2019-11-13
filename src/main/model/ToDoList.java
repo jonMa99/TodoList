@@ -1,6 +1,6 @@
 package model;
 
-import exception.EmptyNormalToDoListException;
+import exception.EmptyToDoListException;
 import exception.TooManyToDosException;
 
 import java.io.FileWriter;
@@ -71,20 +71,19 @@ public class ToDoList extends Subject implements Saveable, Loadable {
         notifyObserver(urgenttoDo);
     }
 
-
     // MODIFIES: this
-    // EFFECT: removes specified normaltodo and moves it to removedToDo
-    public void removeToDo(int removeNum) throws EmptyNormalToDoListException {
+    // EFFECT: removes specified todo and moves it to removedToDo
+    public void removeToDo(int removeNum) throws EmptyToDoListException {
         if (toDoList.size() <= 0) {
-            throw new EmptyNormalToDoListException();
+            throw new EmptyToDoListException();
         }
         System.out.println("You have removed: " + toDoList.get(removeNum - 1).getToDoName());
         moveToDoToRemovedToDo(removeNum);
     }
 
-    // REQUIRES: normaltoDoList has atleast 1 normaltodo
+    // REQUIRES: todoList has atleast 1 todo
     // MODIFIES: this
-    // EFFECT: moves normaltodo from normaltoDoList to removedToDoList
+    // EFFECT: moves todo from toDoList to removedToDoList
     public void moveToDoToRemovedToDo(int removeNum) {
         ToDo moveToRemove = toDoList.get(removeNum - 1);
         toDoList.remove(removeNum - 1);
@@ -92,7 +91,7 @@ public class ToDoList extends Subject implements Saveable, Loadable {
     }
 
 
-    // EFFECT: returns normaltoDoList
+    // EFFECT: returns toDoList
     public ArrayList<ToDo> getToDoList() {
         return toDoList;
     }
@@ -142,7 +141,7 @@ public class ToDoList extends Subject implements Saveable, Loadable {
 //        remove.close();
     }
 
-    //EFFECT: prints a list of normaltodos
+    //EFFECT: prints a list of todos
     public void printToDoList() {
         System.out.println("Current ToDos");
         for (int i = 1; i <= toDoList.size(); i++) {

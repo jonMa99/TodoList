@@ -1,6 +1,6 @@
 package model;
 
-import exception.EmptyNormalToDoListException;
+import exception.EmptyToDoListException;
 import exception.EmptyUrgentToDoListException;
 import exception.TooManyToDosException;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,7 +78,7 @@ public class ToDoListTest {
     }
 
     @Test
-    public void testRemovedToDo() throws EmptyNormalToDoListException, EmptyUrgentToDoListException {
+    public void testRemovedToDo() throws EmptyToDoListException, EmptyUrgentToDoListException {
         try {
             todo.addToDo("Testing todo");
             todo.addToDo("Another testing todo");
@@ -99,7 +99,7 @@ public class ToDoListTest {
         try {
             todo.removeToDo(0);
             fail("Should throw EmptyNormalToDoListException");
-        } catch (EmptyNormalToDoListException e) {
+        } catch (EmptyToDoListException e) {
 
         }
     }

@@ -1,6 +1,6 @@
 package ui;
 
-import exception.EmptyNormalToDoListException;
+import exception.EmptyToDoListException;
 import exception.TooManyToDosException;
 import exception.WrongCommandInputException;
 import model.Location;
@@ -132,7 +132,7 @@ public class UserPrompts {
         int removeNum = scanner.nextInt();
         try {
             toDoList.removeToDo(removeNum);
-        } catch (EmptyNormalToDoListException e) {
+        } catch (EmptyToDoListException e) {
             System.out.println("The NormalToDoList is empty. You have nothing to remove!");
         }
     }

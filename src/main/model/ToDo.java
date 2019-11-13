@@ -37,10 +37,12 @@ public class ToDo {
         }
     }
 
+    //MODIFIES: this
+    //EFFECT: sets location to "Nowhere" and removes this from location if location contains this todo, else do nothing
     public void removeLocation() {
-        if (!todoName.equals("Nowhere")) {
-            location = new Location("Nowhere");
+        if (!getLocation().equals("Nowhere")) {
             location.removeToDo(this);
+            location = new Location("Nowhere");
         }
     }
 
