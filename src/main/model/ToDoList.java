@@ -29,12 +29,13 @@ public class ToDoList extends Subject implements Saveable, Loadable {
     // MODIFIES: this
     // EFFECT: adds todo into the toDoList and prints update
     public void addToDo(String todo) throws TooManyToDosException {
-        if (toDoList.size() >= MAXTODOLISTSIZE) {
-            throw new TooManyToDosException();
-        }
-        ToDo toDo = new NormalItem(todo);
-        toDoList.add(toDo);
-        notifyObserver(toDo);
+//        if (toDoList.size() >= MAXTODOLISTSIZE) {
+//            throw new TooManyToDosException();
+//        }
+//        ToDo toDo = new NormalItem(todo);
+//        toDoList.add(toDo);
+//        notifyObserver(toDo);
+        addToDo(todo, "NoWhere");
     }
 
     // MODIFIES: this
@@ -52,12 +53,13 @@ public class ToDoList extends Subject implements Saveable, Loadable {
     // MODIFIES: this
     // EFFECT: adds urgenttodo into the toDoList and prints update
     public void addUrgentToDo(String todo) throws TooManyToDosException {
-        if (toDoList.size() >= MAXTODOLISTSIZE) {
-            throw new TooManyToDosException();
-        }
-        ToDo urgenttoDo = new UrgentItem(todo);
-        toDoList.add(urgenttoDo);
-        notifyObserver(urgenttoDo);
+//        if (toDoList.size() >= MAXTODOLISTSIZE) {
+//            throw new TooManyToDosException();
+//        }
+//        ToDo urgenttoDo = new UrgentItem(todo);
+//        toDoList.add(urgenttoDo);
+//        notifyObserver(urgenttoDo);
+        addUrgentToDo(todo, "Nowhere");
     }
 
     // MODIFIES: this
