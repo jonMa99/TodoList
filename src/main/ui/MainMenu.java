@@ -6,11 +6,14 @@ import model.ToDoList;
 import network.ReadWeather;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.IOException;
 
-public class MainMenu {
+public class MainMenu implements ActionListener {
     private JFrame frame;
     private JFrame deleteFrame;
     private JButton addToDoButton;
@@ -21,12 +24,26 @@ public class MainMenu {
     private JButton deleteToDoButton;
     private JPanel mainPanel;
     private JPanel deletePanel;
-    private JLabel title;
-    private ToDoList toDoList;
+    private JTextArea textDeleteToDo;
+    private ToDoList toDoList = new ToDoList();
     private ReadWeather readWeather;
+    private CardLayout card;
+    private JPanel cardPane;
 
     public MainMenu() throws IOException {
-        toDoList = new ToDoList();
+//        frame = new JFrame("Main Menu");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setSize(500,400);
+//        mainPanel = new JPanel();
+//        deletePanel = new JPanel();
+//        deletePanel.setBackground(Color.BLACK);
+//        card = new CardLayout();
+//        cardPane.setLayout(card);
+//        cardPane.add(mainPanel, "Main Menu");
+//        cardPane.add(deletePanel, "Delete Menu");
+//        frame.add(cardPane);
+//        frame.setVisible(true);
+
         addToDoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,25 +110,12 @@ public class MainMenu {
         deleteToDoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                deleteFrame = new JFrame("Delete ToDo");
-                try {
-                    deleteFrame.setContentPane(new MainMenu().deletePanel);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                deleteFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                deleteFrame.pack();
-                deleteFrame.setVisible(true);
                 for (ToDo td : toDoList.getToDoList()) {
                     JButton button = new JButton(td.getToDoName());
-                    deleteFrame.add(button);
+                    deletePanel.add(button);
                 }
             }
         });
-    }
-
-    public class DeletePanel {
-
     }
 
     public static void main(String[] args) throws IOException {
@@ -120,5 +124,11 @@ public class MainMenu {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        card.next(cardPane);
     }
 }
