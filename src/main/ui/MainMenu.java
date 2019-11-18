@@ -102,8 +102,8 @@ public class MainMenu extends JFrame {
                 int n = JOptionPane.showConfirmDialog(null, "Really Quit?", "Warning", JOptionPane.YES_NO_OPTION);
                 if (n == JOptionPane.YES_OPTION) {
                     try {
-                        toDoList.save("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
-                                "./data/removeToDoListoutput.txt");
+                        toDoList.save(ToDoList.TODOSAVELOCATION, ToDoList.URGENTTODOSAVELOCATION,
+                                ToDoList.REMOVETODOLOCATION, ToDoList.LOCATIONSAVELOCATION);
                         System.exit(0);
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(null, "Sorry try again!");

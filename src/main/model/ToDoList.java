@@ -11,6 +11,11 @@ import java.util.*;
 
 public class ToDoList extends Subject implements Saveable, Loadable {
     public static final int MAXTODOLISTSIZE = 10;
+    public static final String TODOSAVELOCATION = "./data/toDoListoutput.txt";
+    public static final String URGENTTODOSAVELOCATION = "./data/urgenttoDoListoutput.txt";
+    public static final String REMOVETODOLOCATION = "./data/removeToDoListoutput.txt";
+    public static final String LOCATIONSAVELOCATION = "./data/locationOutput.txt";
+
 
     protected ArrayList<ToDo> toDoList;
     protected ArrayList<ToDo> removedToDoList;
@@ -22,8 +27,7 @@ public class ToDoList extends Subject implements Saveable, Loadable {
         removedToDoList = new ArrayList<>();
         search = new Search();
         setObserver(new PrintToDo());
-        load("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
-                "./data/removeToDoListoutput.txt");
+        load(TODOSAVELOCATION, URGENTTODOSAVELOCATION, REMOVETODOLOCATION, LOCATIONSAVELOCATION);
     }
 
     // MODIFIES: this
@@ -106,17 +110,19 @@ public class ToDoList extends Subject implements Saveable, Loadable {
     @Override
     // MODIFIES: removedToDoList, toDoList
     // EFFECT: loads removeToDoListoutput.txt and toDoListoutput.txt files
-    public void load(String toDo, String urgenttoDo, String removeList) throws IOException {
+    public void load(String toDo, String urgenttoDo, String removeList, String locationOutput) throws IOException {
         List<String> todos = Files.readAllLines(Paths.get(toDo));   // CPSC 210 FileReaderWriter
         for (String s : todos) {
             toDoList.add(new NormalItem(s));
         }
-        List<String> locations = Files.readAllLines(Paths.get("./data/locationOutput.txt"));
-        int i = 0;
-        for (String s : locations) {
-            ToDo todo = toDoList.get(i);
-            todo.addLocation(new Location(s));
-            i++;
+        List<String> locations = Files.readAllLines(Paths.get(locationOutput));
+        if (toDoList.size() > 0) {
+            int i = 0;
+            for (String s : locations) {
+                ToDo todo = toDoList.get(i);
+                todo.addLocation(new Location(s));
+                i++;
+            }
         }
 //        List<String> urgents = Files.readAllLines(Paths.get(urgenttoDo));   // CPSC 210 FileReaderWriter
 //        for (String s : urgents) {
@@ -132,13 +138,13 @@ public class ToDoList extends Subject implements Saveable, Loadable {
     @Override
     // MODIFIES: removeToDoListoutput.txt, toDoListoutput.txt
     // EFFECT: saves toDos inside toDoList and removedToDoList into removedToDoListoutput.txt and toDoListoutput.txt
-    public void save(String toDo, String urgenttoDo, String removeList) throws IOException {                                        // https://stackoverflow.com/questions/6548157/how-to-write-an-arraylist-of-strings-into-a-text-file
+    public void save(String toDo, String urgenttoDo, String removeList, String locationOutput) throws IOException {                                        // https://stackoverflow.com/questions/6548157/how-to-write-an-arraylist-of-strings-into-a-text-file
         FileWriter todo = new FileWriter(toDo, true);
         for (ToDo td : toDoList) {
             todo.write(td.getToDoName() + "\n");
         }
         todo.close();
-        FileWriter location = new FileWriter("./data/locationOutput.txt", true);
+        FileWriter location = new FileWriter(locationOutput, true);
         for (ToDo td : toDoList) {
             location.write(td.getLocation().getLocationName() + "\n");
         }

@@ -49,8 +49,8 @@ public class UserPrompts {
     }
 
     private void saveToDoList(ToDoList tdl) throws IOException {
-        tdl.save("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
-                "./data/removeToDoListoutput.txt");
+        tdl.save(ToDoList.TODOSAVELOCATION, ToDoList.URGENTTODOSAVELOCATION,
+                ToDoList.REMOVETODOLOCATION, ToDoList.LOCATIONSAVELOCATION);
     }
 
     private void printOutMenu() {
