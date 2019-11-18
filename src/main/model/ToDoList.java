@@ -111,6 +111,13 @@ public class ToDoList extends Subject implements Saveable, Loadable {
         for (String s : todos) {
             toDoList.add(new NormalItem(s));
         }
+        List<String> locations = Files.readAllLines(Paths.get("./data/locationOutput.txt"));
+        int i = 0;
+        for (String s : locations) {
+            ToDo todo = toDoList.get(i);
+            todo.addLocation(new Location(s));
+            i++;
+        }
 //        List<String> urgents = Files.readAllLines(Paths.get(urgenttoDo));   // CPSC 210 FileReaderWriter
 //        for (String s : urgents) {
 //            urgenttoDoList.add(new UrgentItem(s));
@@ -131,6 +138,11 @@ public class ToDoList extends Subject implements Saveable, Loadable {
             todo.write(td.getToDoName() + "\n");
         }
         todo.close();
+        FileWriter location = new FileWriter("./data/locationOutput.txt", true);
+        for (ToDo td : toDoList) {
+            location.write(td.getLocation().getLocationName() + "\n");
+        }
+        location.close();
 //        FileWriter urgent = new FileWriter(urgenttoDo, true);
 //        for (ToDo utd : urgenttoDoList) {
 //            urgent.write(utd.getToDoName() + "\n");

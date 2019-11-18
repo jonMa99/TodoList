@@ -13,7 +13,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 
-public class MainMenu implements ActionListener {
+public class MainMenu extends JFrame {
     private JFrame frame;
     private JFrame deleteFrame;
     private JButton addToDoButton;
@@ -30,7 +30,11 @@ public class MainMenu implements ActionListener {
     private CardLayout card;
     private JPanel cardPane;
 
-    public MainMenu() throws IOException {
+    public MainMenu(String title) throws IOException {
+        super(title);
+        this.setContentPane(mainPanel);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
 //        frame = new JFrame("Main Menu");
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        frame.setSize(500,400);
@@ -119,16 +123,7 @@ public class MainMenu implements ActionListener {
     }
 
     public static void main(String[] args) throws IOException {
-        JFrame frame = new JFrame("ToDoList");
-        frame.setContentPane(new MainMenu().mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+        JFrame frame = new MainMenu("ToDoList");
         frame.setVisible(true);
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        card.next(cardPane);
     }
 }
