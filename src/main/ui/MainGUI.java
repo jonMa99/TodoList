@@ -171,10 +171,9 @@ public class MainGUI {
                 public void actionPerformed(ActionEvent e) {
                     ArrayList<ToDo> listOfToDo = locations.get(l);
                     String todoString = "";
-                    int count = 0;
+                    int count = 1;
                     for (ToDo td : listOfToDo) {
-                        todoString = todoString + (count + 1) + ": " + td.getToDoName() + "\n";
-                        count++;
+                        todoString = todoString + (count++) + ": " + td.getToDoName() + "\n";
                     }
                     JOptionPane.showMessageDialog(null, todoString, "ToDos at "
                             + l.getLocationName(), JOptionPane.PLAIN_MESSAGE);
