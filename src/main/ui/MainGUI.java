@@ -173,17 +173,22 @@ public class MainGUI {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     ArrayList<ToDo> listOfToDo = locations.get(l);
-                    String todoString = "";
-                    int count = 1;
-                    for (ToDo td : listOfToDo) {
-                        todoString = todoString + (count++) + ": " + td.getToDoName() + "\n";
-                    }
+                    String todoString = makeToDoString(listOfToDo);
                     JOptionPane.showMessageDialog(null, todoString, "ToDos at "
                             + l.getLocationName(), JOptionPane.PLAIN_MESSAGE);
                 }
             });
             searchPanel.add(button);
         }
+    }
+
+    private String makeToDoString(ArrayList<ToDo> listOfToDo) {
+        String todoString = "";
+        int count = 1;
+        for (ToDo td : listOfToDo) {
+            todoString = todoString + (count++) + ": " + td.getToDoName() + "\n";
+        }
+        return todoString;
     }
 
     private String askNameOfToDo(String s, String addUrgentToDo) {
