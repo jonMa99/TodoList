@@ -7,10 +7,7 @@ import network.ReadWeather;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.io.IOException;
 
 public class MainMenu extends JFrame {
@@ -23,30 +20,32 @@ public class MainMenu extends JFrame {
     private JButton searchToDosByLocationButton;
     private JButton deleteToDoButton;
     private JPanel mainPanel;
+    private JTextArea weatherText;
     private JPanel deletePanel;
     private JTextArea textDeleteToDo;
     private ToDoList toDoList = new ToDoList();
     private ReadWeather readWeather;
     private CardLayout card;
     private JPanel cardPane;
+    private ReadWeather weather;
 
     public MainMenu(String title) throws IOException {
-        super(title);
-        this.setContentPane(mainPanel);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.pack();
-//        frame = new JFrame("Main Menu");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(500,400);
-//        mainPanel = new JPanel();
-//        deletePanel = new JPanel();
-//        deletePanel.setBackground(Color.BLACK);
-//        card = new CardLayout();
-//        cardPane.setLayout(card);
-//        cardPane.add(mainPanel, "Main Menu");
-//        cardPane.add(deletePanel, "Delete Menu");
-//        frame.add(cardPane);
-//        frame.setVisible(true);
+        cardPane = new JPanel(new CardLayout());
+        JFrame frame = new JFrame(title);
+        frame.setVisible(true);
+        frame.setContentPane(mainPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setSize(500,400);
+        cardPane.add(frame, "ToDoList");
+        weather = new ReadWeather();
+        weatherText.setRows(5);
+        weatherText.insert("Weather right now: " + '\n', 0);
+        weatherText.append("Location: " + weather.getLocation(ReadWeather.jsonObject) + "\n");
+        weatherText.append("Weather: " + weather.getWeather(ReadWeather.jsonObject) + "\n");
+        weatherText.append("Description: " + weather.getDescription(ReadWeather.jsonObject) + "\n");
+        weatherText.append("Temperature: " + weather.getMinTemp(ReadWeather.jsonObject)
+               + " to " + weather.getMaxTemp(ReadWeather.jsonObject) + "\n");
 
         addToDoButton.addActionListener(new ActionListener() {
             @Override
@@ -114,16 +113,54 @@ public class MainMenu extends JFrame {
         deleteToDoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                deletePanel = new JPanel(new GridLayout(11, 1));
+                JLabel heading = new JLabel("Delete To Do");
+                deletePanel.add(heading);
                 for (ToDo td : toDoList.getToDoList()) {
                     JButton button = new JButton(td.getToDoName());
+                    button.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            toDoList.getToDoList().remove(td);
+                        }
+                    });
                     deletePanel.add(button);
                 }
+                JButton backButton = new JButton("Back");
+                deletePanel.add(backButton);
+
+                frame.getContentPane().removeAll();
+                frame.repaint();
+                frame.revalidate();
+                frame.setContentPane(deletePanel);
+                frame.repaint();
+                frame.revalidate();
+
+                cardPane.add(deletePanel, "Delete ToDo");
+
+                backButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        CardLayout card = (CardLayout) (cardPane.getLayout());    //https://stackoverflow.com/questions/24167805/cardlayout-with-buttons-that-change-the-cards
+                        card.show(mainPanel, "ToDoList");
+                    }
+                });
+            }
+        });
+        weatherText.addContainerListener(new ContainerAdapter() {
+        });
+        searchToDosByLocationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object[] options = {};
             }
         });
     }
 
-    public static void main(String[] args) throws IOException {
-        JFrame frame = new MainMenu("ToDoList");
-        frame.setVisible(true);
+    private void switchPane(JPanel panel) {
+        frame.getContentPane().removeAll();
+        frame.setContentPane(panel);
+        frame.repaint();
+        frame.revalidate();
     }
 }

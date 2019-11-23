@@ -15,6 +15,7 @@ public class ReadWeather {
     String vancouverweather = "https://api.openweathermap.org/data/2.5/weather?id=6173331&units=metric&APPID=";
     String theURL = vancouverweather + apikey;
     BufferedReader br = null;
+    public static JSONObject jsonObject = null;
 
     public ReadWeather() {
         try {
@@ -38,13 +39,13 @@ public class ReadWeather {
                 //sb.append(System.lineSeparator());
             }
 
-            JSONObject jsonObject = new JSONObject(sb.toString());
+            jsonObject = new JSONObject(sb.toString());
 
-            System.out.println("Location: " + jsonObject.getString("name"));
+            System.out.println("Location: " + getLocation(jsonObject));
 
-            printWeather(jsonObject);
+            printWeather(getWeather(jsonObject), getDescription(jsonObject));
 
-            printTemp(jsonObject);
+            printTemp(getMinTemp(jsonObject), getMaxTemp(jsonObject));
             System.out.println("");
         } finally {
             if (br != null) {
@@ -53,19 +54,41 @@ public class ReadWeather {
         }
     }
 
-    private static void printWeather(JSONObject jsonObject) {
+    public static void printWeather(String weather, String desc) {
+        System.out.println("Weather: " + weather + "\n" + "Description: " + desc);
+    }
+
+    public static String getLocation(JSONObject jsonObject) {
+        return jsonObject.getString("name");
+    }
+
+    public static String getWeather(JSONObject jsonObject) {
         JSONArray weatherArray = jsonObject.getJSONArray("weather");
         JSONObject weatherObject = weatherArray.getJSONObject(0);
         String weather = weatherObject.getString("main");
-        String desc = weatherObject.getString("description");
-        System.out.println("Weather: " +  weather);
-        System.out.println("Description: " + desc);
+        return weather;
     }
 
-    private static void printTemp(JSONObject jsonObject) {
+    public static String getDescription(JSONObject jsonObject) {
+        JSONArray weatherArray = jsonObject.getJSONArray("weather");
+        JSONObject weatherObject = weatherArray.getJSONObject(0);
+        String desc = weatherObject.getString("description");
+        return desc;
+    }
+
+    public static int getMinTemp(JSONObject jsonObject) {
         JSONObject temp = jsonObject.getJSONObject("main");
         int mintemp = temp.getInt("temp_min");
+        return mintemp;
+    }
+
+    public static int getMaxTemp(JSONObject jsonObject) {
+        JSONObject temp = jsonObject.getJSONObject("main");
         int maxtemp = temp.getInt("temp");
+        return maxtemp;
+    }
+
+    public static void printTemp(int mintemp, int maxtemp) {
         System.out.println("Temperature: " + mintemp + " to " + maxtemp);
     }
 
