@@ -37,7 +37,7 @@ public class MainGUI {
     private JPanel searchPanel;
     private ToDoList toDoList = new ToDoList();
     private ReadWeather weather;
-    private Search search = new Search();
+    private Search search;
 
     public MainGUI() throws IOException {
         JFrame frame = new JFrame("ToDoList");
@@ -125,10 +125,16 @@ public class MainGUI {
         searchToDosByLocationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                searchPanel.removeAll();
                 searchPanel = new JPanel(new GridLayout(10,0,0,5));
                 placeSearchButton();
                 JButton backButton = new JButton("Back");
                 searchPanel.add(backButton);
+                searchPanel.repaint();
+                searchPanel.revalidate();
+                cardPanel.add(searchPanel, "searchPanel");
+                CardLayout card = (CardLayout) (cardPanel.getLayout());    //https://stackoverflow.com/questions/24167805/cardlayout-with-buttons-that-change-the-cards
+                card.show(cardPanel, "searchPanel");
 
                 backButton.addActionListener(new ActionListener() {
                     @Override
@@ -137,10 +143,6 @@ public class MainGUI {
                         card.show(cardPanel, "mainPanel");
                     }
                 });
-                cardPanel.add(searchPanel, "searchPanel");
-                CardLayout card = (CardLayout) (cardPanel.getLayout());    //https://stackoverflow.com/questions/24167805/cardlayout-with-buttons-that-change-the-cards
-                card.show(cardPanel, "searchPanel");
-
             }
         });
 
@@ -163,6 +165,7 @@ public class MainGUI {
     }
 
     private void placeSearchButton() {
+        search = new Search();
         HashMap<Location, ArrayList<ToDo>> locations = search.fillHashMap(toDoList);
         for (Location l : locations.keySet()) {
             JButton button = new JButton(l.getLocationName());
