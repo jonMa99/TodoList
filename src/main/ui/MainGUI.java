@@ -69,7 +69,8 @@ public class MainGUI {
                                 + " at location: " + location, addToDo, JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (TooManyToDosException error) {
-                    JOptionPane.showMessageDialog(null, tooManyToDos, addToDo, JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, tooManyToDos, addToDo,
+                            JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -106,7 +107,8 @@ public class MainGUI {
                             + " --- at location: " + td.getLocation().getLocationName() + "\n";
                     count++;
                 }
-                JOptionPane.showMessageDialog(null, listToDo, "List of ToDos", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, listToDo, "List of ToDos",
+                        JOptionPane.PLAIN_MESSAGE);
             }
         });
 
