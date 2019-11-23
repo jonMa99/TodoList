@@ -18,6 +18,11 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class MainGUI {
+    public static final String addToDo = "Add ToDo";
+    public static final String addUrgentToDo = "Add Urgent ToDo";
+    public static final String tooManyToDos = "Sorry you have too many todos."
+            + "Can you remove some before adding a new one?";
+
     private JPanel cardPanel;
     private JButton addUrgentToDoButton;
     private JButton deleteToDoButton;
@@ -50,40 +55,44 @@ public class MainGUI {
         addToDoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String todo = JOptionPane.showInputDialog("Name of todo");
+                String todo = askNameOfToDo("Name of todo", addToDo);
                 try {
-                    String location = JOptionPane.showInputDialog("Type in location (default is Nowhere)");
+                    String location = askNameOfToDo("Type in location "
+                            + " (default is Nowhere)", addToDo);
                     if (location == null) {
                         toDoList.addToDo(todo);
-                        JOptionPane.showMessageDialog(null, "You have added: " + todo);
+                        JOptionPane.showMessageDialog(null, "You have added: " + todo,
+                                addToDo, JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         toDoList.addToDo(todo, location);
-                        JOptionPane.showMessageDialog(null,
-                                "You have added: " + todo + " at location: " + location);
+                        JOptionPane.showMessageDialog(null, "You have added: " + todo
+                                + " at location: " + location, addToDo, JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (TooManyToDosException error) {
-                    JOptionPane.showMessageDialog(null, "Sorry you have too many todos. "
-                            + "Can you remove some before adding a new one?");
+                    JOptionPane.showMessageDialog(null, tooManyToDos, addToDo, JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
         addUrgentToDoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String todo = JOptionPane.showInputDialog("Name of urgent todo");
+                String todo = askNameOfToDo("Name of urgent todo", addUrgentToDo);
                 try {
-                    String location = JOptionPane.showInputDialog("Type in location (default is Nowhere)");
+                    String location = askNameOfToDo("Type in location"
+                            + " (default is Nowhere)", addUrgentToDo);
                     if (location == null) {
                         toDoList.addUrgentToDo(todo);
-                        JOptionPane.showMessageDialog(null, "You have added: " + todo);
+                        JOptionPane.showMessageDialog(null, "You have added: " + todo,
+                                addUrgentToDo, JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         toDoList.addUrgentToDo(todo, location);
                         JOptionPane.showMessageDialog(null,
-                                "You have added: " + todo + " at location: " + location);
+                                "You have added: " + todo + " at location: " + location, addUrgentToDo,
+                                JOptionPane.WARNING_MESSAGE);
                     }
                 } catch (TooManyToDosException error) {
-                    JOptionPane.showMessageDialog(null, "Sorry you have too many todos. "
-                            + "Can you remove some before adding a new one?");
+                    JOptionPane.showMessageDialog(null, tooManyToDos, addUrgentToDo,
+                            JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -117,25 +126,7 @@ public class MainGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 searchPanel = new JPanel(new GridLayout(10,0,0,5));
-                Set<Location> locationList = search.getKeysAndMakeList(toDoList);
-                HashMap<Location, ArrayList<ToDo>> locations = search.fillHashMap(toDoList);
-                for (Location l : locationList) {
-                    JButton button = new JButton(l.getLocationName());
-                    button.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            ArrayList<ToDo> listOfToDo = locations.get(l);
-                            String todoString = "";
-                            int count = 0;
-                            for (ToDo td : listOfToDo) {
-                                todoString = todoString + (count + 1) + ": " + td.getToDoName() + "\n";
-                            }
-                            JOptionPane.showMessageDialog(null, todoString, "ToDos at "
-                                    + l.getLocationName(), JOptionPane.PLAIN_MESSAGE);
-                        }
-                    });
-                    searchPanel.add(button);
-                }
+                placeSearchButton();
                 JButton backButton = new JButton("Back");
                 searchPanel.add(backButton);
 
@@ -169,6 +160,33 @@ public class MainGUI {
                 }
             }
         });
+    }
+
+    private void placeSearchButton() {
+        HashMap<Location, ArrayList<ToDo>> locations = search.fillHashMap(toDoList);
+        for (Location l : locations.keySet()) {
+            JButton button = new JButton(l.getLocationName());
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ArrayList<ToDo> listOfToDo = locations.get(l);
+                    String todoString = "";
+                    int count = 0;
+                    for (ToDo td : listOfToDo) {
+                        todoString = todoString + (count + 1) + ": " + td.getToDoName() + "\n";
+                        count++;
+                    }
+                    JOptionPane.showMessageDialog(null, todoString, "ToDos at "
+                            + l.getLocationName(), JOptionPane.PLAIN_MESSAGE);
+                }
+            });
+            searchPanel.add(button);
+        }
+    }
+
+    private String askNameOfToDo(String s, String addUrgentToDo) {
+        return JOptionPane.showInputDialog(null, s,
+                addUrgentToDo, JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void setUpDeletePanel() {
@@ -231,15 +249,16 @@ public class MainGUI {
         if (weather.getMaxTemp(ReadWeather.jsonObject) < 10) {
             clothing = new ImageIcon(System.getProperty("user.dir") + sep
                     + "data" + sep + "winterjacket.jpg");
-            weatherIcon = new JLabel(clothing);     //CPSC 210 C3 LectureLabStarter
+        //    weatherIcon = new JLabel(clothing);     //CPSC 210 C3 LectureLabStarter
         } else if (weather.getMaxTemp(ReadWeather.jsonObject) > 30) {
             clothing = new ImageIcon(System.getProperty("user.dir") + sep
                     + "data" + sep + "hawaiianshirt.jpg");
-            weatherIcon = new JLabel(clothing);     //CPSC 210 C3 LectureLabStarter
+       //     weatherIcon = new JLabel(clothing);     //CPSC 210 C3 LectureLabStarter
         } else {
             clothing = new ImageIcon(System.getProperty("user.dir") + sep
                     + "data" + sep + "sweatshirt.jpg");
-            weatherIcon = new JLabel(clothing);     //CPSC 210 C3 LectureLabStarter
+       //     weatherIcon = new JLabel(clothing);     //CPSC 210 C3 LectureLabStarter
         }
+        weatherIcon = new JLabel(clothing);
     }
 }
