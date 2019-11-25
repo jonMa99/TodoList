@@ -59,15 +59,19 @@ public class MainGUI {
                 try {
                     String location = askNameOfToDo("Type in location "
                             + " (default is Nowhere)", addToDo);
-                    if (location == null) {
+                    ToDo td;
+                    if (location.equals("")) {
                         toDoList.addToDo(todo);
-                        JOptionPane.showMessageDialog(null, "You have added: " + todo,
-                                addToDo, JOptionPane.INFORMATION_MESSAGE);
+                        location = "Nowhere";
+//                        JOptionPane.showMessageDialog(null, "You have added: " + todo,
+//                                addToDo, JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         toDoList.addToDo(todo, location);
-                        JOptionPane.showMessageDialog(null, "You have added: " + todo
-                                + " at location: " + location, addToDo, JOptionPane.INFORMATION_MESSAGE);
+//                        JOptionPane.showMessageDialog(null, "You have added: " + todo
+//                                + " at location: " + location, addToDo, JOptionPane.INFORMATION_MESSAGE);
                     }
+                    JOptionPane.showMessageDialog(null, "You have added: " + todo
+                            + " at location: " + location, addToDo, JOptionPane.INFORMATION_MESSAGE);
                 } catch (TooManyToDosException error) {
                     JOptionPane.showMessageDialog(null, tooManyToDos, addToDo,
                             JOptionPane.WARNING_MESSAGE);
