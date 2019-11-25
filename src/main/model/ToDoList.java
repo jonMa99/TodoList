@@ -139,12 +139,12 @@ public class ToDoList extends Subject implements Saveable, Loadable {
     // MODIFIES: removeToDoListoutput.txt, toDoListoutput.txt
     // EFFECT: saves toDos inside toDoList and removedToDoList into removedToDoListoutput.txt and toDoListoutput.txt
     public void save(String toDo, String urgenttoDo, String removeList, String locationOutput) throws IOException {                                        // https://stackoverflow.com/questions/6548157/how-to-write-an-arraylist-of-strings-into-a-text-file
-        FileWriter todo = new FileWriter(toDo, true);
+        FileWriter todo = new FileWriter(toDo, false);
         for (ToDo td : toDoList) {
             todo.write(td.getToDoName() + "\n");
         }
         todo.close();
-        FileWriter location = new FileWriter(locationOutput, true);
+        FileWriter location = new FileWriter(locationOutput, false);
         for (ToDo td : toDoList) {
             location.write(td.getLocation().getLocationName() + "\n");
         }
@@ -154,13 +154,13 @@ public class ToDoList extends Subject implements Saveable, Loadable {
 //            urgent.write(utd.getToDoName() + "\n");
 //        }
 //        urgent.close();
-        FileWriter remove = new FileWriter(removeList, true);
+        FileWriter remove = new FileWriter(removeList, false);
         for (ToDo rtd : removedToDoList) {
             remove.write(rtd.getToDoName() + "\n");
         }
         remove.close();
     }
-
+    
     //EFFECT: prints a list of todos
     public void printToDoList() {
         System.out.println("Current ToDos");
