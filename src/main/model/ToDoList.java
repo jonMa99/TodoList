@@ -160,7 +160,7 @@ public class ToDoList extends Subject implements Saveable, Loadable {
         }
         remove.close();
     }
-    
+
     //EFFECT: prints a list of todos
     public void printToDoList() {
         System.out.println("Current ToDos");
