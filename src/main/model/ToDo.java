@@ -47,6 +47,7 @@ public class ToDo {
     }
 
     @Override
+    // EFFECT: return true if todo == object based on todoName and location
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -60,6 +61,7 @@ public class ToDo {
     }
 
     @Override
+    // EFFECT: returns hashcode based on todoName and location
     public int hashCode() {
         return Objects.hash(todoName, location);
     }

@@ -42,6 +42,7 @@ public class Location {
     }
 
     @Override
+    // EFFECT: returns true if location == objects location
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -54,6 +55,7 @@ public class Location {
     }
 
     @Override
+    // EFFECT: makes hashCode using location
     public int hashCode() {
         return Objects.hash(location);
     }
