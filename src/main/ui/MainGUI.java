@@ -46,14 +46,16 @@ public class MainGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(500, 400);
-        cardPanel.add(mainPanel, "mainPanel");
-        CardLayout card = (CardLayout) (cardPanel.getLayout());
-        card.show(cardPanel, "mainPanel");
+        showSearchPanel(mainPanel, "mainPanel");
         displayWeather();
-        getWeatherPicture();
+//        getWeatherPicture();
+//        mainPanel.repaint();
+//        mainPanel.revalidate();
 
         addToDoButton.addActionListener(new ActionListener() {
             @Override
+            // MODIFIES: this
+            // EFFECT: add normal todo based on name and location, if too many todos, show toomanytodo message
             public void actionPerformed(ActionEvent e) {
                 String todo = askNameOfToDo("Name of todo", addToDo);
                 try {
@@ -80,6 +82,8 @@ public class MainGUI {
         });
         addUrgentToDoButton.addActionListener(new ActionListener() {
             @Override
+            // MODIFIES: this
+            // EFFECT: add urgent todo based on name and location, if too many todos, show toomanytodo message
             public void actionPerformed(ActionEvent e) {
                 String todo = askNameOfToDo("Name of urgent todo", addUrgentToDo);
                 try {
@@ -103,6 +107,7 @@ public class MainGUI {
         });
         showToDosAndUrgentToDosButton.addActionListener(new ActionListener() {
             @Override
+            // EFFECT: opens JOptionPane with list of todos
             public void actionPerformed(ActionEvent e) {
                 String listToDo = "";
                 int count = 0;
@@ -118,32 +123,35 @@ public class MainGUI {
 
         deleteToDoButton.addActionListener(new ActionListener() {
             @Override
+            // MODIFIES: this
+            // EFFECT: opens new JPanel and deletes todo based on which button is pressed
             public void actionPerformed(ActionEvent e) {
                 deletePanel = new JPanel(new GridLayout(12,0, 0, 5));
                 setUpDeletePanel();
-                cardPanel.add(deletePanel, "deletePanel");
-                CardLayout card = (CardLayout) (cardPanel.getLayout());    //https://stackoverflow.com/questions/24167805/cardlayout-with-buttons-that-change-the-cards
-                card.show(cardPanel, "deletePanel");
+                showSearchPanel(deletePanel, "deletePanel");
             }
         });
         weatherText.addContainerListener(new ContainerAdapter() {
         });
         searchToDosByLocationButton.addActionListener(new ActionListener() {
             @Override
+            // EFFECT: opens new JPanel with buttons corresponding to locations and on button press,
+            //         show todos with location
             public void actionPerformed(ActionEvent e) {
                 searchPanel.removeAll();
                 searchPanel = new JPanel(new GridLayout(10,0,0,5));
+                JLabel title = new JLabel("Search ToDo", SwingConstants.CENTER);
+                searchPanel.add(title);
                 placeSearchButton();
                 JButton backButton = new JButton("Back");
                 searchPanel.add(backButton);
                 searchPanel.repaint();
                 searchPanel.revalidate();
-                cardPanel.add(searchPanel, "searchPanel");
-                CardLayout card = (CardLayout) (cardPanel.getLayout());    //https://stackoverflow.com/questions/24167805/cardlayout-with-buttons-that-change-the-cards
-                card.show(cardPanel, "searchPanel");
+                showSearchPanel(searchPanel, "searchPanel");
 
                 backButton.addActionListener(new ActionListener() {
                     @Override
+                    // EFFECT: goes back to mainPanel
                     public void actionPerformed(ActionEvent e) {
                         CardLayout card = (CardLayout) (cardPanel.getLayout());    //https://stackoverflow.com/questions/24167805/cardlayout-with-buttons-that-change-the-cards
                         card.show(cardPanel, "mainPanel");
@@ -154,6 +162,8 @@ public class MainGUI {
 
         saveAndQuitButton.addActionListener(new ActionListener() {
             @Override
+            // MODIFIES: locationOutPut.txt, toDoListoutput.txt
+            // EFFECT: saves todolist and closes program
             public void actionPerformed(ActionEvent e) {
                 int n = JOptionPane.showConfirmDialog(null, "Really Quit?",
                         "Warning", JOptionPane.YES_NO_OPTION);
@@ -170,6 +180,12 @@ public class MainGUI {
         });
     }
 
+    private void showSearchPanel(JPanel searchPanel, String searchPanel2) {
+        cardPanel.add(searchPanel, searchPanel2);
+        CardLayout card = (CardLayout) (cardPanel.getLayout());    //https://stackoverflow.com/questions/24167805/cardlayout-with-buttons-that-change-the-cards
+        card.show(cardPanel, searchPanel2);
+    }
+
     private void placeSearchButton() {
         search = new Search();
         HashMap<Location, ArrayList<ToDo>> locations = search.fillHashMap(toDoList);
@@ -177,6 +193,7 @@ public class MainGUI {
             JButton button = new JButton(l.getLocationName());
             button.addActionListener(new ActionListener() {
                 @Override
+                // EFFECT: lists todos at location on button press
                 public void actionPerformed(ActionEvent e) {
                     ArrayList<ToDo> listOfToDo = locations.get(l);
                     String todoString = makeToDoString(listOfToDo);
@@ -203,7 +220,7 @@ public class MainGUI {
     }
 
     private void setUpDeletePanel() {
-        JLabel heading = new JLabel("Delete To Do");
+        JLabel heading = new JLabel("Delete To Do", SwingConstants.CENTER);
         deletePanel.add(heading);
         makeButtonWithActionListener();
         JButton backButton = new JButton("Back");
@@ -211,6 +228,7 @@ public class MainGUI {
 
         backButton.addActionListener(new ActionListener() {
             @Override
+            // EFFECT: returns to mainPanel on button press
             public void actionPerformed(ActionEvent e) {
                 CardLayout card = (CardLayout) (cardPanel.getLayout());    //https://stackoverflow.com/questions/24167805/cardlayout-with-buttons-that-change-the-cards
                 card.show(cardPanel, "mainPanel");
@@ -223,6 +241,8 @@ public class MainGUI {
             JButton button = new JButton(td.getToDoName());
             button.addActionListener(new ActionListener() {
                 @Override
+                // MODIFIES: this
+                // EFFECT: asks if really delete and if yes, delete todo and refresh panel
                 public void actionPerformed(ActionEvent e) {
                     int n = JOptionPane.showConfirmDialog(null, "Really Delete?",
                             "Warning", JOptionPane.YES_NO_OPTION);
@@ -256,22 +276,21 @@ public class MainGUI {
         weatherText.append("Dress appropriately for the weather!");
     }
 
-    private void getWeatherPicture() {
-        ImageIcon clothing;
-        String sep = System.getProperty("file.separator");   //CPSC 210 C3 LectureLabStarter
-        if (weather.getMaxTemp(ReadWeather.jsonObject) < 10) {
-            clothing = new ImageIcon(System.getProperty("user.dir") + sep
-                    + "data" + sep + "winterjacket.jpg");
-        //    weatherIcon = new JLabel(clothing);     //CPSC 210 C3 LectureLabStarter
-        } else if (weather.getMaxTemp(ReadWeather.jsonObject) > 30) {
-            clothing = new ImageIcon(System.getProperty("user.dir") + sep
-                    + "data" + sep + "hawaiianshirt.jpg");
-       //     weatherIcon = new JLabel(clothing);     //CPSC 210 C3 LectureLabStarter
-        } else {
-            clothing = new ImageIcon(System.getProperty("user.dir") + sep
-                    + "data" + sep + "sweatshirt.jpg");
-       //     weatherIcon = new JLabel(clothing);     //CPSC 210 C3 LectureLabStarter
-        }
-        weatherIcon = new JLabel(clothing);
-    }
+//    private void getWeatherPicture() {
+//        ImageIcon clothing;
+//        String sep = System.getProperty("file.separator");   //CPSC 210 C3 LectureLabStarter
+//        if (weather.getMaxTemp(ReadWeather.jsonObject) < 10) {
+//            clothing = new ImageIcon("hawaiianshirt.jpg");
+//        //    weatherIcon = new JLabel(clothing);     //CPSC 210 C3 LectureLabStarter
+//        } else if (weather.getMaxTemp(ReadWeather.jsonObject) > 30) {
+//            clothing = new ImageIcon("hawaiianshirt.jpg");
+//       //     weatherIcon = new JLabel(clothing);     //CPSC 210 C3 LectureLabStarter
+//        } else {
+//            clothing = new ImageIcon("hawaiianshirt.jpg");
+//       //     weatherIcon = new JLabel(clothing);     //CPSC 210 C3 LectureLabStarter
+//        }
+//        weatherIcon = new JLabel(clothing);
+//        weatherIcon.setText("test");
+//        weatherIcon.setVisible(true);
+//    }
 }
