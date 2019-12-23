@@ -6,7 +6,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         //new UserPrompts();
-        //new MainMenu("ToDoList");
         new MainGUI();
     }
 }
