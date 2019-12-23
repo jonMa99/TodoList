@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Search {
-    private ToDoList toDoList;
     private HashMap<Location, ArrayList<ToDo>> search;
 
     public Search() {
@@ -22,6 +21,7 @@ public class Search {
         return listOfLocation;
     }
 
+    // MODIFIES: this
     //EFFECT: makes a hashmap using keys and empty ArrayList
     public HashMap<Location, ArrayList<ToDo>> makeKeyAndEmptyValueHashMap(ToDoList toDoList) {
         for (Location l : getKeysAndMakeList(toDoList)) {
@@ -30,6 +30,7 @@ public class Search {
         return search;
     }
 
+    // MODIFIES: this
     // EFFECT: produces hashmap with location as key and ArrayList<ToDo> as values
     public HashMap<Location, ArrayList<ToDo>> fillHashMap(ToDoList toDoList) {
         HashMap<Location, ArrayList<ToDo>> search = makeKeyAndEmptyValueHashMap(toDoList);

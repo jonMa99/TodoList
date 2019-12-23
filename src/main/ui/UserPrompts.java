@@ -1,6 +1,6 @@
 package ui;
 
-import exception.EmptyNormalToDoListException;
+import exception.EmptyToDoListException;
 import exception.TooManyToDosException;
 import exception.WrongCommandInputException;
 import model.Location;
@@ -49,8 +49,8 @@ public class UserPrompts {
     }
 
     private void saveToDoList(ToDoList tdl) throws IOException {
-        tdl.save("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
-                "./data/removeToDoListoutput.txt");
+        tdl.save(ToDoList.TODOSAVELOCATION, ToDoList.URGENTTODOSAVELOCATION,
+                ToDoList.REMOVETODOLOCATION, ToDoList.LOCATIONSAVELOCATION);
     }
 
     private void printOutMenu() {
@@ -132,7 +132,7 @@ public class UserPrompts {
         int removeNum = scanner.nextInt();
         try {
             toDoList.removeToDo(removeNum);
-        } catch (EmptyNormalToDoListException e) {
+        } catch (EmptyToDoListException e) {
             System.out.println("The NormalToDoList is empty. You have nothing to remove!");
         }
     }

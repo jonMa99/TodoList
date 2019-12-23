@@ -1,6 +1,6 @@
 package model;
 
-import exception.EmptyNormalToDoListException;
+import exception.EmptyToDoListException;
 import exception.TooManyToDosException;
 
 import java.io.FileWriter;
@@ -11,6 +11,11 @@ import java.util.*;
 
 public class ToDoList extends Subject implements Saveable, Loadable {
     public static final int MAXTODOLISTSIZE = 10;
+    public static final String TODOSAVELOCATION = "./data/toDoListoutput.txt";
+    public static final String URGENTTODOSAVELOCATION = "./data/urgenttoDoListoutput.txt";
+    public static final String REMOVETODOLOCATION = "./data/removeToDoListoutput.txt";
+    public static final String LOCATIONSAVELOCATION = "./data/locationOutput.txt";
+
 
     protected ArrayList<ToDo> toDoList;
     protected ArrayList<ToDo> removedToDoList;
@@ -22,23 +27,23 @@ public class ToDoList extends Subject implements Saveable, Loadable {
         removedToDoList = new ArrayList<>();
         search = new Search();
         setObserver(new PrintToDo());
-        load("./data/toDoListoutput.txt", "./data/urgenttoDoListoutput.txt",
-                "./data/removeToDoListoutput.txt");
+        load(TODOSAVELOCATION, URGENTTODOSAVELOCATION, REMOVETODOLOCATION, LOCATIONSAVELOCATION);
     }
 
     // MODIFIES: this
-    // EFFECT: adds todo into the toDoList
+    // EFFECT: adds todo into the toDoList and prints update
     public void addToDo(String todo) throws TooManyToDosException {
-        if (toDoList.size() >= MAXTODOLISTSIZE) {
-            throw new TooManyToDosException();
-        }
-        ToDo toDo = new NormalItem(todo);
-        toDoList.add(toDo);
-        notifyObserver(toDo);
+//        if (toDoList.size() >= MAXTODOLISTSIZE) {
+//            throw new TooManyToDosException();
+//        }
+//        ToDo toDo = new NormalItem(todo);
+//        toDoList.add(toDo);
+//        notifyObserver(toDo);
+        addToDo(todo, "NoWhere");
     }
 
     // MODIFIES: this
-    // EFFECT: adds todo with location into the toDoList
+    // EFFECT: adds todo with location into the toDoList and prints update
     public void addToDo(String todo, String location) throws TooManyToDosException {
         if (toDoList.size() >= MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
@@ -50,18 +55,19 @@ public class ToDoList extends Subject implements Saveable, Loadable {
 
 
     // MODIFIES: this
-    // EFFECT: adds urgenttodo into the toDoList
+    // EFFECT: adds urgenttodo into the toDoList and prints update
     public void addUrgentToDo(String todo) throws TooManyToDosException {
-        if (toDoList.size() >= MAXTODOLISTSIZE) {
-            throw new TooManyToDosException();
-        }
-        ToDo urgenttoDo = new UrgentItem(todo);
-        toDoList.add(urgenttoDo);
-        notifyObserver(urgenttoDo);
+//        if (toDoList.size() >= MAXTODOLISTSIZE) {
+//            throw new TooManyToDosException();
+//        }
+//        ToDo urgenttoDo = new UrgentItem(todo);
+//        toDoList.add(urgenttoDo);
+//        notifyObserver(urgenttoDo);
+        addUrgentToDo(todo, "Nowhere");
     }
 
     // MODIFIES: this
-    // EFFECT: adds urgenttodo with location into the toDoList
+    // EFFECT: adds urgenttodo with location into the toDoList and prints update
     public void addUrgentToDo(String todo, String location) throws TooManyToDosException {
         if (toDoList.size() >= MAXTODOLISTSIZE) {
             throw new TooManyToDosException();
@@ -71,20 +77,19 @@ public class ToDoList extends Subject implements Saveable, Loadable {
         notifyObserver(urgenttoDo);
     }
 
-
     // MODIFIES: this
-    // EFFECT: removes specified normaltodo and moves it to removedToDo
-    public void removeToDo(int removeNum) throws EmptyNormalToDoListException {
+    // EFFECT: removes specified todo and moves it to removedToDo
+    public void removeToDo(int removeNum) throws EmptyToDoListException {
         if (toDoList.size() <= 0) {
-            throw new EmptyNormalToDoListException();
+            throw new EmptyToDoListException();
         }
         System.out.println("You have removed: " + toDoList.get(removeNum - 1).getToDoName());
         moveToDoToRemovedToDo(removeNum);
     }
 
-    // REQUIRES: normaltoDoList has atleast 1 normaltodo
+    // REQUIRES: todoList has atleast 1 todo
     // MODIFIES: this
-    // EFFECT: moves normaltodo from normaltoDoList to removedToDoList
+    // EFFECT: moves todo from toDoList to removedToDoList
     public void moveToDoToRemovedToDo(int removeNum) {
         ToDo moveToRemove = toDoList.get(removeNum - 1);
         toDoList.remove(removeNum - 1);
@@ -92,7 +97,7 @@ public class ToDoList extends Subject implements Saveable, Loadable {
     }
 
 
-    // EFFECT: returns normaltoDoList
+    // EFFECT: returns toDoList
     public ArrayList<ToDo> getToDoList() {
         return toDoList;
     }
@@ -105,11 +110,24 @@ public class ToDoList extends Subject implements Saveable, Loadable {
     @Override
     // MODIFIES: removedToDoList, toDoList
     // EFFECT: loads removeToDoListoutput.txt and toDoListoutput.txt files
-    public void load(String toDo, String urgenttoDo, String removeList) throws IOException {
+    public void load(String toDo, String urgenttoDo, String removeList, String locationOutput) throws IOException {
         List<String> todos = Files.readAllLines(Paths.get(toDo));   // CPSC 210 FileReaderWriter
         for (String s : todos) {
             toDoList.add(new NormalItem(s));
         }
+//        FileWriter newtodo = new FileWriter(TODOSAVELOCATION, true);
+//        newtodo.close();
+        List<String> locations = Files.readAllLines(Paths.get(locationOutput));
+        if (toDoList.size() > 0) {
+            int i = 0;
+            for (String s : locations) {
+                ToDo todo = toDoList.get(i);
+                todo.addLocation(new Location(s));
+                i++;
+            }
+        }
+//        FileWriter newlocation = new FileWriter(LOCATIONSAVELOCATION, true);
+//        newlocation.close();
 //        List<String> urgents = Files.readAllLines(Paths.get(urgenttoDo));   // CPSC 210 FileReaderWriter
 //        for (String s : urgents) {
 //            urgenttoDoList.add(new UrgentItem(s));
@@ -118,31 +136,38 @@ public class ToDoList extends Subject implements Saveable, Loadable {
         for (String s : removes) {
             removedToDoList.add(new NormalItem(s));
         }
+//        FileWriter newremove = new FileWriter(REMOVETODOLOCATION, true);
+//        newremove.close();
         printToDoList();
     }
 
     @Override
     // MODIFIES: removeToDoListoutput.txt, toDoListoutput.txt
     // EFFECT: saves toDos inside toDoList and removedToDoList into removedToDoListoutput.txt and toDoListoutput.txt
-    public void save(String toDo, String urgenttoDo, String removeList) throws IOException {                                        // https://stackoverflow.com/questions/6548157/how-to-write-an-arraylist-of-strings-into-a-text-file
-        FileWriter todo = new FileWriter(toDo, true);
+    public void save(String toDo, String urgenttoDo, String removeList, String locationOutput) throws IOException {                                        // https://stackoverflow.com/questions/6548157/how-to-write-an-arraylist-of-strings-into-a-text-file
+        FileWriter todo = new FileWriter(toDo, false);
         for (ToDo td : toDoList) {
             todo.write(td.getToDoName() + "\n");
         }
         todo.close();
+        FileWriter location = new FileWriter(locationOutput, false);
+        for (ToDo td : toDoList) {
+            location.write(td.getLocation().getLocationName() + "\n");
+        }
+        location.close();
 //        FileWriter urgent = new FileWriter(urgenttoDo, true);
 //        for (ToDo utd : urgenttoDoList) {
 //            urgent.write(utd.getToDoName() + "\n");
 //        }
 //        urgent.close();
-        FileWriter remove = new FileWriter(removeList, true);
+        FileWriter remove = new FileWriter(removeList, false);
         for (ToDo rtd : removedToDoList) {
             remove.write(rtd.getToDoName() + "\n");
         }
         remove.close();
     }
 
-    //EFFECT: prints a list of normaltodos
+    //EFFECT: prints a list of todos
     public void printToDoList() {
         System.out.println("Current ToDos");
         for (int i = 1; i <= toDoList.size(); i++) {

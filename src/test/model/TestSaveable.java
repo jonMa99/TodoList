@@ -57,6 +57,7 @@ public class TestSaveable {
     }
 
     public void testSave(Saveable s) throws IOException {
-        s.save("./data/testoutput.txt", "./data/testurgentoutput.txt","./data/testoutputremoved.txt");
+        s.save("./data/testoutput.txt", "./data/testurgentoutput.txt",
+                "./data/testoutputremoved.txt", "./data/locationtest.txt");
     }
 }

@@ -2,6 +2,6 @@ package model;
 
 public interface Observer {
 
-    // EFFECT: responds to t
+    // EFFECT: updates based on todo
     public void update(ToDo todo);
 }

@@ -18,7 +18,7 @@ public class TestLoadable {
     }
 
     @Test
-    public void testLoad() throws IOException {
+    public void testLoadToDoList() throws IOException {
         testLoad(toDoList);
         ArrayList<ToDo> toDoList = this.toDoList.getToDoList();
         assertEquals("CPSC 210", toDoList.get(0).getToDoName());
@@ -28,6 +28,7 @@ public class TestLoadable {
     }
 
     public void testLoad(Loadable l) throws IOException {
-        l.load("./data/testinput.txt", "./data/urgenttestinput.txt", "./data/testinputremoved.txt");
+        l.load("./data/testinput.txt", "./data/urgenttestinput.txt",
+                "./data/testinputremoved.txt", "./data/locationtestload.txt");
     }
 }

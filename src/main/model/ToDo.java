@@ -37,14 +37,17 @@ public class ToDo {
         }
     }
 
+    //MODIFIES: this
+    //EFFECT: sets location to "Nowhere" and removes this from location if location contains this todo, else do nothing
     public void removeLocation() {
-        if (!todoName.equals("Nowhere")) {
-            location = new Location("Nowhere");
+        if (!getLocation().equals("Nowhere")) {
             location.removeToDo(this);
+            location = new Location("Nowhere");
         }
     }
 
     @Override
+    // EFFECT: return true if todo == object based on todoName and location
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -58,6 +61,7 @@ public class ToDo {
     }
 
     @Override
+    // EFFECT: returns hashcode based on todoName and location
     public int hashCode() {
         return Objects.hash(todoName, location);
     }

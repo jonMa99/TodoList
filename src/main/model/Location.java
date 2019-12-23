@@ -32,6 +32,8 @@ public class Location {
         }
     }
 
+    //MODIFIES: this, td
+    //EFFECT: removes todo from todos and makes td location "Nowhere" if todos.contains(td), else do nothing
     public void removeToDo(ToDo td) {
         if (todos.contains(td)) {
             todos.remove(td);
@@ -40,6 +42,7 @@ public class Location {
     }
 
     @Override
+    // EFFECT: returns true if location == objects location
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -52,6 +55,7 @@ public class Location {
     }
 
     @Override
+    // EFFECT: makes hashCode using location
     public int hashCode() {
         return Objects.hash(location);
     }
