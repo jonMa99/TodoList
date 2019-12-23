@@ -45,7 +45,7 @@ public class MainGUI {
         frame.setContentPane(cardPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(500, 400);
+        frame.setSize(400, 500);
         showSearchPanel(mainPanel, "mainPanel");
         displayWeather();
 //        getWeatherPicture();
