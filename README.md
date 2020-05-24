@@ -11,7 +11,6 @@ A simple TodoList with saving functionality, searching for Todos based on locati
 ![](pic/List.png)
 
 ## Features
-***
 - Todos and Urgent Todos
 - Checks and display weather forcast information
 - Searching for todos based on location
