@@ -2,7 +2,13 @@
 
 A simple TodoList with saving functionality, searching for Todos based on location and a functional GUI.
 
+<br/>
 
+![](pic/Startup.png)
+
+![](pic/Search.png)
+
+![](pic/List.png)
 
 ## Features
 ***
